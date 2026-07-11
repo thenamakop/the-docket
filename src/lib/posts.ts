@@ -1,42 +1,13 @@
 import { createClient as createServerClient } from '@/lib/supabase/server';
+import type { Post, SectionSlug } from '@/lib/post-data';
 
-export type SectionSlug =
-  | 'law-justice'
-  | 'criminal-justice'
-  | 'book-reviews'
-  | 'personal-essays'
-  | 'poetry-fiction'
-  | 'guest-posts';
-
-export interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  docket_no: string;
-  section: SectionSlug;
-  dek: string | null;
-  body_html: string;
-  cover_image_url: string | null;
-  author: string;
-  status: 'draft' | 'published';
-  published_at: string;
-  reading_time_minutes: number | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export const sectionLabels: Record<SectionSlug, string> = {
-  'law-justice': 'Law & Justice',
-  'criminal-justice': 'Criminal Justice',
-  'book-reviews': 'Book Reviews',
-  'personal-essays': 'Personal Essays',
-  'poetry-fiction': 'Poetry & Short Fiction',
-  'guest-posts': 'Guest Posts',
-};
-
-export function sectionLabel(section: SectionSlug): string {
-  return sectionLabels[section] ?? section;
-}
+export type { Post, SectionSlug };
+export {
+  sectionLabels,
+  sectionLabel,
+  groupPostsByYear,
+  formatPostDate,
+} from '@/lib/post-data';
 
 async function getSupabase() {
   return createServerClient();
@@ -77,6 +48,37 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 
   return data as Post;
+}
+
+export async function getPostById(id: string): Promise<Post | null> {
+  const supabase = await getSupabase();
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error('getPostById error:', error.message);
+    return null;
+  }
+
+  return data as Post;
+}
+
+export async function getAllPosts(): Promise<Post[]> {
+  const supabase = await getSupabase();
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('getAllPosts error:', error.message);
+    return [];
+  }
+
+  return (data ?? []) as Post[];
 }
 
 export async function getPostsBySection(
@@ -147,27 +149,4 @@ export async function getRelatedPosts(
   }
 
   return (data ?? []) as Post[];
-}
-
-export function groupPostsByYear(posts: Post[]): Record<number, Post[]> {
-  return posts.reduce(
-    (groups, post) => {
-      const year = new Date(post.published_at).getUTCFullYear();
-      if (!groups[year]) {
-        groups[year] = [];
-      }
-      groups[year].push(post);
-      return groups;
-    },
-    {} as Record<number, Post[]>
-  );
-}
-
-export function formatPostDate(isoDate: string): string {
-  const date = new Date(isoDate);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }

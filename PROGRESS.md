@@ -59,7 +59,7 @@ Decisions not fully specified:
 
 ## Phase 3 — Admin panel
 
-Status: not started
+Status: in_progress
 
 ## Phase 4 — Post detail page
 

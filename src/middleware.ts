@@ -1,9 +1,42 @@
-import { NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
-// Placeholder middleware: passes every request through unchanged.
-// Route protection for /admin/* will be implemented in Phase 3.
-export function middleware() {
-  return NextResponse.next();
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const response = NextResponse.next();
+  response.headers.set('X-Robots-Tag', 'noindex');
+
+  if (pathname === '/admin/login') {
+    return response;
+  }
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    }
+  );
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    const loginUrl = new URL('/admin/login', request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return response;
 }
 
 export const config = {
