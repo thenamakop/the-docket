@@ -41,7 +41,7 @@ Decisions not fully specified:
 
 ## Phase 2 — Supabase setup + home page
 
-Status: not started
+Status: in progress
 
 ## Phase 3 — Admin panel
 
