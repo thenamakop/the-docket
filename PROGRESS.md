@@ -41,7 +41,21 @@ Decisions not fully specified:
 
 ## Phase 2 — Supabase setup + home page
 
-Status: in progress
+Status: complete
+
+Summary: Wrote `supabase/schema.sql` with the exact `posts` table and RLS policies from SPEC.md Section 4, plus 8 original seed posts across 5 sections and 2 years. Created `.env.local.example` and populated `.env.local` with the supplied Supabase credentials. Built `src/lib/supabase/client.ts` and `src/lib/supabase/server.ts` using `@supabase/ssr`, and `src/lib/posts.ts` with typed public query helpers (`getPublishedPosts`, `getPostBySlug`, `getPostsBySection`, `getPostsByYear`, `getRelatedPosts`). Built `docket-badge.tsx` and `post-card.tsx`. Built the home page with hero spotlight, year-grouped Volume Index, and 20-post pagination, `export const revalidate = 60`. Ran `schema.sql` against the Supabase project via direct Postgres connection; all 8 seed posts inserted without constraint errors. Verified `npm run build` passes and the home page renders real data, with the hero post (No. 006) also appearing in its year group.
+
+Deviations from SPEC.md:
+
+- None for the data model; the table and RLS policies match SPEC.md verbatim.
+- Tailwind v4 / shadcn Base UI `Button` does not support the Radix `asChild` prop, so the hero CTA and pagination controls use styled `Link` elements directly.
+
+Decisions not fully specified:
+
+- Seed posts are original prose, 300-500 words each, across `law-justice`, `criminal-justice`, `book-reviews`, `personal-essays`, `poetry-fiction`, and `guest-posts`.
+- Hero uses the most recent published post (`published_at` desc). No. 006 is currently the hero because it has the latest `published_at`.
+- Temporary `pg` package was installed to run `schema.sql` via direct Postgres and then uninstalled; it is not part of the project dependencies.
+- `.env.local` is gitignored and contains the real Supabase URL + anon key.
 
 ## Phase 3 — Admin panel
 

@@ -265,7 +265,7 @@ The live source of truth for build status is [`PROGRESS.md`](./PROGRESS.md). Thi
 
 - [x] Phase 0 — Repo bootstrap
 - [x] Phase 1 — Design tokens + layout shell
-- [ ] Phase 2 — Supabase setup + home page
+- [x] Phase 2 — Supabase setup + home page
 - [ ] Phase 3 — Admin panel
 - [ ] Phase 4 — Post detail page
 - [ ] Phase 5 — Section / archive pages + filter drawer
