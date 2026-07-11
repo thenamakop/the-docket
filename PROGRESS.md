@@ -21,7 +21,23 @@ Decisions not fully specified:
 
 ## Phase 1 — Design tokens + layout shell
 
-Status: not started
+Status: complete
+
+Summary: Implemented the full editorial token system in `src/styles/globals.css` (7 colors, 4 font roles, dark mode overrides) and registered them as Tailwind v4 theme keys. Configured `next/font/google` for Fraunces, Newsreader, Public Sans, and IBM Plex Mono. Added `next-themes` with a `ThemeProvider` wrapper. Built `Header` (masthead, nav links, search trigger, dark toggle, sticky scroll border) and `Footer` (about, subscribe, social, pull-quote) and wired both into `layout.tsx`. Replaced the default Next.js home page with a blank placeholder. Verified `npm run lint`, `npm run build`, and `npm run dev` all pass; no raw hex codes in components.
+
+Deviations from SPEC.md:
+
+- The spec says `src/styles/globals.css`; this is where tokens live. Phase 0 had created `src/app/globals.css` for Tailwind v4 imports, so that content was moved to `src/styles/globals.css` and the old file removed.
+- Tailwind v4 uses CSS-based `@theme inline` instead of `tailwind.config.ts`, so tokens are registered there. `tailwind.config.ts` remains an empty placeholder from Phase 0.
+- `Fraunces` was loaded with weights 400/500/600 as specified; optical sizing is not explicitly enabled because `next/font/google` does not expose a straightforward optical-sizing axis for static weight loading. If optical sizing is critical, we can switch to the variable version with axes later.
+
+Decisions not fully specified:
+
+- Nav links route to `/`, `/section/book-reviews`, `/section/personal-essays`, and `/section/poetry-fiction`. The two remaining sections (`law-justice`, `criminal-justice`, `guest-posts`) are not in the top nav and will be reachable via the filter drawer in Phase 5.
+- Header nav uses `uppercase tracking-[0.08em]` as a practical small-caps treatment since Public Sans does not ship true small caps.
+- Footer social placeholders use the `X` icon (lucide-react's name for the Twitter/X mark) and `Rss`.
+- Subscribe form is client-side no-op; real wiring in Phase 7.
+- Focus rings use `focus-visible:ring-oxblood` for keyboard visibility.
 
 ## Phase 2 — Supabase setup + home page
 

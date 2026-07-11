@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Editorial color tokens */
+  --color-ink: var(--ink);
+  --color-parchment: var(--parchment);
+  --color-parchment-dim: var(--parchment-dim);
+  --color-oxblood: var(--oxblood);
+  --color-brass: var(--brass);
+  --color-slate: var(--slate);
+  --color-rule: var(--rule);
+
+  /* Editorial font tokens */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-ui: var(--font-ui);
+  --font-mono: var(--font-mono);
+
+  /* shadcn/ui mappings to editorial tokens */
+  --font-sans: var(--font-ui);
+  --font-heading: var(--font-display);
+  --color-background: var(--parchment);
+  --color-foreground: var(--ink);
+  --color-card: var(--parchment-dim);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--parchment);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--oxblood);
+  --color-primary-foreground: var(--parchment);
+  --color-secondary: var(--parchment-dim);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--parchment-dim);
+  --color-muted-foreground: var(--slate);
+  --color-accent: var(--brass);
+  --color-accent-foreground: var(--parchment);
+  --color-destructive: var(--oxblood);
+  --color-destructive-foreground: var(--parchment);
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--oxblood);
+
+  /* shadcn radius scale */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+:root {
+  /* Editorial tokens: light mode */
+  --ink: #1c1f2b;
+  --parchment: #faf6ec;
+  --parchment-dim: #f1e9d8;
+  --oxblood: #7a2e2e;
+  --brass: #a47b3d;
+  --slate: #5b5f6b;
+  --rule: #dcd2bc;
+
+  /* shadcn base variables */
+  --radius: 0.625rem;
+}
+
+.dark {
+  /* Editorial tokens: dark mode */
+  --ink: #ede7d8;
+  --parchment: #15141b;
+  --parchment-dim: #1e1c26;
+  --oxblood: #c4645f;
+  --brass: #c9a063;
+  --slate: #9b97a8;
+  --rule: #2c2a35;
+}
+
+@layer base {
+  * {
+    @apply border-rule;
+  }
+
+  html {
+    @apply font-ui antialiased;
+  }
+
+  body {
+    @apply bg-parchment text-ink;
+  }
+}
+
+@layer utilities {
+  .font-mono-smallcaps {
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}

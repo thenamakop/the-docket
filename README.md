@@ -264,7 +264,7 @@ For the handoff, ownership of the Vercel and Supabase projects should sit with t
 The live source of truth for build status is [`PROGRESS.md`](./PROGRESS.md). This list is a quick-glance summary.
 
 - [x] Phase 0 — Repo bootstrap
-- [ ] Phase 1 — Design tokens + layout shell
+- [x] Phase 1 — Design tokens + layout shell
 - [ ] Phase 2 — Supabase setup + home page
 - [ ] Phase 3 — Admin panel
 - [ ] Phase 4 — Post detail page
