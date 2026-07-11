@@ -1,5 +1,7 @@
 # The Docket — Spec & Build Prompts
+
 ### A modern editorial blog, inspired by bharatchugh.in (not a 1:1 clone)
+
 Prepared for: Maulik · Target build agent: **Kimi K2.7 Code** (256K context, forced-thinking, agentic tool use — via Kimi Code CLI, OpenRouter, or any OpenAI-compatible harness)
 Author will publish posts himself via a simple form — no code, no git, no technical knowledge required. Everything below is built around that constraint.
 
@@ -9,16 +11,16 @@ Author will publish posts himself via a simple form — no code, no git, no tech
 
 Under the hood it's a stock WordPress.com theme. Structurally, though, it has a real editorial shape worth borrowing:
 
-| Element on the source site | What it's really doing |
-|---|---|
-| Header: social icons, About, Subscribe, Search | Minimal top nav, no clutter |
-| Hero: full-width image + eyebrow categories + title + excerpt | One featured essay gets the spotlight |
-| "Previous columns" | A flat, infinite reverse-chronological list of every post (title, byline, date, excerpt) |
-| "Similar posts" | Related-content block, seemingly tag-based |
-| "Columns/Articles by month/year" | A 70+ entry archive-by-month list (2011–2026) |
-| "Categories of posts" | A 70+ item flat taxonomy with counts |
-| Pull quote + newsletter signup | "This blog is a labor of love..." + WordPress.com subscribe widget |
-| Footer | WordPress.com boilerplate |
+| Element on the source site                                    | What it's really doing                                                                   |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Header: social icons, About, Subscribe, Search                | Minimal top nav, no clutter                                                              |
+| Hero: full-width image + eyebrow categories + title + excerpt | One featured essay gets the spotlight                                                    |
+| "Previous columns"                                            | A flat, infinite reverse-chronological list of every post (title, byline, date, excerpt) |
+| "Similar posts"                                               | Related-content block, seemingly tag-based                                               |
+| "Columns/Articles by month/year"                              | A 70+ entry archive-by-month list (2011–2026)                                            |
+| "Categories of posts"                                         | A 70+ item flat taxonomy with counts                                                     |
+| Pull quote + newsletter signup                                | "This blog is a labor of love..." + WordPress.com subscribe widget                       |
+| Footer                                                        | WordPress.com boilerplate                                                                |
 
 **Worth noting**: WordPress itself already solved "let a non-technical person publish posts" — that's literally wp-admin's whole job. The clone needs to solve the exact same problem, just with a modern, radically simpler interface than wp-admin's cluttered dashboard, and a modern public-facing design instead of the default theme.
 
@@ -40,12 +42,14 @@ Behind the scenes, there's one more piece:
 3. **A database** — think of this as a filing cabinet living on a server, not on anyone's laptop. Every post's title, text, photo, and category is stored there. When someone writes a new post through the admin page, it gets saved into this filing cabinet. When a visitor loads the website, the site reaches into the same filing cabinet and displays whatever's there — automatically, with no extra steps.
 
 **What "publishing a post" actually does, step by step:**
+
 1. The site owner goes to `yoursite.com/admin` and logs in.
 2. He clicks "New Post," types a title, writes the essay, optionally uploads a photo and picks a category.
 3. He clicks **Publish**.
 4. That post is now saved in the database. Within about a minute, it shows up on the homepage for everyone — automatically. No one needs to touch code, redeploy anything, or contact you.
 
 **Three separate services are involved, all free:**
+
 - **Vercel** — hosts the actual website (the pages people visit).
 - **Supabase** — hosts the database (the filing cabinet) and stores uploaded photos.
 - **GitHub** — stores the website's code (only relevant if the design ever needs to change — not needed for day-to-day posting).
@@ -59,14 +63,18 @@ None of these three require ongoing payment for a site at this scale. The only g
 This replaces any notion of editing files. This is the entire non-technical experience:
 
 ### `/admin/login`
+
 - Email field, password field, "Log in" button. Nothing else. One account only (the site owner's).
 
 ### `/admin` (post list, shown right after login)
+
 - A simple table: **Title · Status (Draft/Published) · Date · [Edit] [Delete]**
 - A single prominent **"+ New Post"** button at the top.
 
 ### `/admin/posts/new` (and reused for editing)
+
 The entire form, top to bottom:
+
 1. **Title** — plain text input.
 2. **Cover photo** — a drag-and-drop / click-to-upload box. Shows a preview once uploaded. Optional.
 3. **Category** — a dropdown with six plain-language options (Law & Justice, Criminal Justice, Book Reviews, Personal Essays, Poetry & Short Fiction, Guest Posts). Defaults to "Personal Essays" if skipped.
@@ -76,13 +84,14 @@ The entire form, top to bottom:
 That's it — four visible fields plus the two buttons. Everything else the site needs (the URL slug, the docket number, reading time, the publish timestamp) is generated automatically in the background and never shown to the user. A blockquote inserted via the "Quote" toolbar button automatically gets the site's marginalia/pull-quote visual treatment on the public page — the design decision from Section 4 below happens for free, with zero extra effort from whoever's writing.
 
 ### Who can log in
+
 One account, created once during setup, with credentials handed to the site owner directly (not emailed in plaintext — see the handoff section). If he ever wants a second person to be able to post (e.g., a guest author), that's a second Supabase Auth user added the same way — a five-minute task for you, not something he needs to self-serve.
 
 ---
 
 ## 3. Design Direction
 
-(unchanged from the original brief — this governs the *public* site only; the admin panel below is deliberately plain and utilitarian, not styled to the same degree, since its only user is one person who needs speed and clarity, not editorial atmosphere.)
+(unchanged from the original brief — this governs the _public_ site only; the admin panel below is deliberately plain and utilitarian, not styled to the same degree, since its only user is one person who needs speed and clarity, not editorial atmosphere.)
 
 Per the brief's genre (law + literature + personal essay), the design should feel like a well-edited literary/legal journal — not a SaaS landing page, not a generic "cream background + terracotta accent" AI-default.
 
@@ -91,25 +100,28 @@ Per the brief's genre (law + literature + personal essay), the design should fee
 ### Design tokens
 
 **Color**
-| Token | Hex | Use |
-|---|---|---|
-| `--ink` | `#1C1F2B` | Primary text |
-| `--parchment` | `#FAF6EC` | Page background |
-| `--parchment-dim` | `#F1E9D8` | Card/panel surfaces |
-| `--oxblood` | `#7A2E2E` | Primary accent — links, docket numbers, active states |
-| `--brass` | `#A47B3D` | Secondary accent — hover underline, category badges |
-| `--slate` | `#5B5F6B` | Meta text — dates, bylines, captions |
-| `--rule` | `#DCD2BC` | Hairline dividers |
+
+| Token             | Hex       | Use                                                   |
+| ----------------- | --------- | ----------------------------------------------------- |
+| `--ink`           | `#1C1F2B` | Primary text                                          |
+| `--parchment`     | `#FAF6EC` | Page background                                       |
+| `--parchment-dim` | `#F1E9D8` | Card/panel surfaces                                   |
+| `--oxblood`       | `#7A2E2E` | Primary accent — links, docket numbers, active states |
+| `--brass`         | `#A47B3D` | Secondary accent — hover underline, category badges   |
+| `--slate`         | `#5B5F6B` | Meta text — dates, bylines, captions                  |
+| `--rule`          | `#DCD2BC` | Hairline dividers                                     |
 
 Dark mode: `--ink` → `#EDE7D8`, `--parchment` → `#15141B`, `--parchment-dim` → `#1E1C26`, `--oxblood` → `#C4645F`, `--brass` → `#C9A063`, `--slate` → `#9B97A8`, `--rule` → `#2C2A35`.
 
 **Type**
+
 - Display serif: **Fraunces** — masthead, post titles, pull-quotes
 - Body serif: **Newsreader** — essay body text, 18–20px, 1.65 line-height
 - UI sans: **Public Sans** — nav, buttons, category tags
 - Mono/utility: **IBM Plex Mono**, small caps — docket numbers, dates, reading time
 
 **Layout concept**
+
 ```
 ┌─────────────────────────────────────────┐
 │  masthead   nav: essays / reviews /      │
@@ -127,6 +139,7 @@ Dark mode: `--ink` → `#EDE7D8`, `--parchment` → `#15141B`, `--parchment-dim`
 │  footer: about, subscribe, social, RSS   │
 └─────────────────────────────────────────┘
 ```
+
 No permanent sidebar — categories and archive live in a slide-out filter drawer, not a scroll-forever list.
 
 ---
@@ -173,20 +186,20 @@ Image files (cover photos + any images inserted into the body) live in a Supabas
 
 ## 5. Tech Stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Framework | Next.js 15, App Router, TypeScript | Fast, great SEO, renders straight from the database |
-| Styling | Tailwind CSS v4 + CSS variables (token table above) | Matches your existing workflow |
-| Database | **Supabase** (hosted Postgres, free tier) | Free, no server to maintain, built-in auth + storage in one place |
-| Auth (admin only) | Supabase Auth, single email/password account | Simplest possible gate — no signup flow, no roles/permissions system needed |
-| File storage | Supabase Storage (free tier, 1GB) | Cover photos + inline post images |
-| Rich text editor | **Tiptap** (open source, free) | WYSIWYG "Google Docs lite" experience — no markdown, no code visible to the author |
-| Search | Postgres full-text search (built into Supabase, free) | No extra search service needed — the database already supports this |
-| Newsletter | Serverless API route stubbed for a provider of choice (Buttondown / ConvertKit / Resend) | Keeps it provider-agnostic until one is picked |
-| RSS | Generated at request time from the same database query used on the homepage | Cheap, expected for a blog |
-| Deployment | **Vercel** (free tier) | Zero-config for Next.js |
-| Icons | `lucide-react` | Consistent, accessible icon set |
-| Components | `shadcn/ui` primitives (dialog, sheet, command), themed to the tokens above | Accessible out of the box |
+| Layer             | Choice                                                                                   | Why                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Framework         | Next.js 15, App Router, TypeScript                                                       | Fast, great SEO, renders straight from the database                                |
+| Styling           | Tailwind CSS v4 + CSS variables (token table above)                                      | Matches your existing workflow                                                     |
+| Database          | **Supabase** (hosted Postgres, free tier)                                                | Free, no server to maintain, built-in auth + storage in one place                  |
+| Auth (admin only) | Supabase Auth, single email/password account                                             | Simplest possible gate — no signup flow, no roles/permissions system needed        |
+| File storage      | Supabase Storage (free tier, 1GB)                                                        | Cover photos + inline post images                                                  |
+| Rich text editor  | **Tiptap** (open source, free)                                                           | WYSIWYG "Google Docs lite" experience — no markdown, no code visible to the author |
+| Search            | Postgres full-text search (built into Supabase, free)                                    | No extra search service needed — the database already supports this                |
+| Newsletter        | Serverless API route stubbed for a provider of choice (Buttondown / ConvertKit / Resend) | Keeps it provider-agnostic until one is picked                                     |
+| RSS               | Generated at request time from the same database query used on the homepage              | Cheap, expected for a blog                                                         |
+| Deployment        | **Vercel** (free tier)                                                                   | Zero-config for Next.js                                                            |
+| Icons             | `lucide-react`                                                                           | Consistent, accessible icon set                                                    |
+| Components        | `shadcn/ui` primitives (dialog, sheet, command), themed to the tokens above              | Accessible out of the box                                                          |
 
 Pages render with `export const revalidate = 60` — every page re-checks the database at most once a minute, so a freshly published post appears site-wide within about 60 seconds with zero manual steps (no "rebuild the site" button to remember, no webhook to configure).
 
@@ -195,24 +208,26 @@ Pages render with `export const revalidate = 60` — every page re-checks the da
 ## 6. Page-by-Page Spec
 
 **Public site**
-| Route | Purpose |
-|---|---|
-| `/` | Featured essay hero + grouped-by-year volume index (paginated, 20/page) |
-| `/essays/[slug]` | Post page: docket no., title, dek, body, marginal pull-quotes (auto from blockquotes), related posts, share links |
-| `/section/[section]` | Filtered index for one of the 6 sections |
-| `/tag/[tag]` | (optional, phase 2 feature — see notes) |
-| `/archive/[year]` | Chronological index for one year |
-| `/about` | Author bio |
-| `/search` | Full search UI (also available as ⌘K command palette) |
-| `/rss.xml` | Generated RSS feed |
+
+| Route                | Purpose                                                                                                           |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `/`                  | Featured essay hero + grouped-by-year volume index (paginated, 20/page)                                           |
+| `/essays/[slug]`     | Post page: docket no., title, dek, body, marginal pull-quotes (auto from blockquotes), related posts, share links |
+| `/section/[section]` | Filtered index for one of the 6 sections                                                                          |
+| `/tag/[tag]`         | (optional, phase 2 feature — see notes)                                                                           |
+| `/archive/[year]`    | Chronological index for one year                                                                                  |
+| `/about`             | Author bio                                                                                                        |
+| `/search`            | Full search UI (also available as ⌘K command palette)                                                             |
+| `/rss.xml`           | Generated RSS feed                                                                                                |
 
 **Admin (private)**
-| Route | Purpose |
-|---|---|
-| `/admin/login` | Email + password login |
-| `/admin` | Post list (title, status, date, edit/delete) + "New Post" button |
-| `/admin/posts/new` | The authoring form described in Section 2 |
-| `/admin/posts/[id]/edit` | Same form, pre-filled, for editing an existing post |
+
+| Route                    | Purpose                                                          |
+| ------------------------ | ---------------------------------------------------------------- |
+| `/admin/login`           | Email + password login                                           |
+| `/admin`                 | Post list (title, status, date, edit/delete) + "New Post" button |
+| `/admin/posts/new`       | The authoring form described in Section 2                        |
+| `/admin/posts/[id]/edit` | Same form, pre-filled, for editing an existing post              |
 
 Every `/admin/*` route (except `/admin/login`) is protected by Next.js middleware checking the Supabase session — an unauthenticated visitor hitting any admin URL gets redirected straight to the login page, no error page, no confusing dead end.
 
@@ -285,6 +300,7 @@ the-docket/
 ## 10. Hosting & Handoff Plan (fully free)
 
 **Accounts needed** (create all three yourself during the build, then transfer ownership at handoff — see below):
+
 1. **GitHub** — holds the code.
 2. **Vercel** — connect it to the GitHub repo; every push to `main` auto-deploys. Free tier easily covers a personal blog's traffic.
 3. **Supabase** — one free project holds the database, file storage, and the single admin login. Free tier limits (500MB database, 1GB file storage, 50,000 monthly active users on auth) are far beyond what a personal blog needs.
@@ -292,7 +308,8 @@ the-docket/
 **Domain**: the free setup gives a URL like `the-docket.vercel.app`. If a custom domain matters (e.g. `bharatchugh.in`-style branding), that's the one line item that costs money — about $10–15/year from any registrar (Namecheap, Google Domains' successor, etc.) — pointed at Vercel with a couple of DNS records. Entirely optional; the rest of the stack doesn't change either way.
 
 **Recommended ownership pattern for handoff**:
-- Create the Vercel and Supabase accounts using *the site owner's own email*, not yours — you work inside them as a collaborator during the build, then remove your own access once it's done. This avoids the situation where the site becomes unmanageable if you're unreachable later (e.g., once your internship or your involvement ends).
+
+- Create the Vercel and Supabase accounts using _the site owner's own email_, not yours — you work inside them as a collaborator during the build, then remove your own access once it's done. This avoids the situation where the site becomes unmanageable if you're unreachable later (e.g., once your internship or your involvement ends).
 - Hand off exactly three things at the end: (1) the admin login email + password, given to him directly/verbally or via a password manager share, never over plain email or chat, (2) a one-page "How to add a new post" guide (see below), (3) confirmation that he — not you — is the account owner on Vercel and Supabase.
 
 **A one-page non-technical guide** (worth writing once the site is live, I'm happy to draft this for you as a separate short document): "Go to yoursite.com/admin → log in → click New Post → fill in the title, write your post, add a photo if you want, pick a category → click Publish → your post appears on the homepage within about a minute." That's the entire manual he needs.
@@ -301,16 +318,16 @@ the-docket/
 
 ## 11. Build Plan — Phases
 
-| Phase | Deliverable |
-|---|---|
-| 0 | Repo bootstrap: Next.js + TS + Tailwind + tooling |
-| 1 | Design tokens + global layout shell |
-| 2 | Supabase setup (schema, client, queries) + home page reading from the database |
-| 3 | Admin panel: login, post list, new/edit post form (title, image, category, rich text, publish) |
-| 4 | Post detail page (typography, marginalia, related posts) |
-| 5 | Section / archive pages + filter drawer |
-| 6 | Search (Postgres full-text + command palette) + dark mode |
-| 7 | Newsletter stub + RSS + SEO/OG images + deploy + handoff docs |
+| Phase | Deliverable                                                                                    |
+| ----- | ---------------------------------------------------------------------------------------------- |
+| 0     | Repo bootstrap: Next.js + TS + Tailwind + tooling                                              |
+| 1     | Design tokens + global layout shell                                                            |
+| 2     | Supabase setup (schema, client, queries) + home page reading from the database                 |
+| 3     | Admin panel: login, post list, new/edit post form (title, image, category, rich text, publish) |
+| 4     | Post detail page (typography, marginalia, related posts)                                       |
+| 5     | Section / archive pages + filter drawer                                                        |
+| 6     | Search (Postgres full-text + command palette) + dark mode                                      |
+| 7     | Newsletter stub + RSS + SEO/OG images + deploy + handoff docs                                  |
 
 Each phase below is a complete, paste-ready prompt for Kimi K2.7 Code. Run them in order.
 
@@ -711,7 +728,7 @@ than hardcoding fallback values into the code.
 
 ## 13. Notes for you
 
-- **Placeholder content**: Phase 2 seeds 8 *original* placeholder posts so the shell has something to look at — swap them for real writing (or delete them) once Phase 3's admin panel exists, by just logging in and using it like any other post.
+- **Placeholder content**: Phase 2 seeds 8 _original_ placeholder posts so the shell has something to look at — swap them for real writing (or delete them) once Phase 3's admin panel exists, by just logging in and using it like any other post.
 - **Naming**: "The Docket" is a placeholder brand name — swap the masthead text in Phase 1.
 - **The non-technical guide**: once the site is live, ping me and I'll draft the actual one-page "how to add a post" handoff document referenced in Section 10 — it's a five-minute job once there are real screenshots to point to.
 - **Scope check**: if Kimi K2.7 Code tries to add things not in a given phase's prompt (a second admin user, comments, a CMS-style page builder, etc.), redirect it back to the phase's stated goal.
