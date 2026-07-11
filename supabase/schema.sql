@@ -1,0 +1,1 @@
+-- Database schema and RLS policies for the posts table.
