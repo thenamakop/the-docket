@@ -54,25 +54,23 @@ export function DeletePostButton({ postId, title }: DeletePostButtonProps) {
           >
             Cancel
           </Button>
-          <form
-            action={async (formData: FormData) => {
+          <Button
+            type="button"
+            disabled={pending}
+            onClick={async () => {
               setPending(true);
+              const formData = new FormData();
+              formData.append('id', postId);
               try {
                 await deletePost(formData);
               } finally {
                 setPending(false);
               }
             }}
+            className="bg-oxblood text-parchment hover:bg-oxblood/90 focus-visible:ring-oxblood"
           >
-            <input type="hidden" name="id" value={postId} />
-            <Button
-              type="submit"
-              disabled={pending}
-              className="bg-oxblood text-parchment hover:bg-oxblood/90 focus-visible:ring-oxblood"
-            >
-              {pending ? 'Deleting…' : 'Delete'}
-            </Button>
-          </form>
+            {pending ? 'Deleting…' : 'Delete'}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

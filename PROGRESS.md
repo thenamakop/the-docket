@@ -59,7 +59,21 @@ Decisions not fully specified:
 
 ## Phase 3 — Admin panel
 
-Status: in_progress
+Status: complete
+
+Summary: Built the full non-technical authoring experience. Created the single Supabase Auth user (`maulikgupta21@gmail.com`) and confirmed the email via SQL. Implemented `src/middleware.ts` with session protection and `X-Robots-Tag: noindex` for all `/admin/*` routes. Built `src/app/admin/login/page.tsx` with a plain error message. Built `src/app/admin/page.tsx` post list with status badges, edit/delete actions, and a confirmation dialog. Built `src/components/admin/rich-text-editor.tsx` (Tiptap with Bold, Italic, Heading, lists, quote, link, inline image) and `src/components/admin/image-uploader.tsx` (drag-and-drop cover upload to the public `post-images` Supabase Storage bucket). Built `src/components/admin/post-form.tsx` reused by new and edit pages, with Title → Cover photo → Category → Body → Save as Draft / Publish. Server actions in `src/app/admin/actions.ts` compute slug, sequential docket number, reading time, and sanitize body HTML with `sanitize-html`. Verified via Playwright: login succeeds, creating a post with all fields and publishing it appears on the homepage within 60 seconds, incognito `/admin` redirects to `/admin/login`, editing a post's category reflects on the homepage, and the delete dialog cancels safely then confirms deletion.
+
+Deviations from SPEC.md:
+
+- No signup UI (intentional per spec). Additional users can be created directly in the Supabase dashboard if needed later.
+- Tailwind v4 / shadcn Base UI `DialogTrigger` does not support `asChild`; used the `render` prop pattern instead.
+
+Decisions not fully specified:
+
+- Admin user created via Supabase Auth signup API, then email-confirmed via direct SQL (`email_confirmed_at = now()`) because the project has email confirmation enabled by default.
+- The `post-images` storage bucket and policies were created via direct SQL using the database connection.
+- Temporary setup/debug scripts and the `pg` package were removed after use to avoid committing credentials or unused dependencies. Only the final app code is in the repo.
+- `src/lib/post-data.ts` was split out from `src/lib/posts.ts` so admin client components (e.g., `post-form.tsx`) can import types and labels without pulling the server-only Supabase client into the browser.
 
 ## Phase 4 — Post detail page
 

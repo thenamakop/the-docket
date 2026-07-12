@@ -18,17 +18,25 @@ The Docket is a personal editorial blog for essays, book reviews, poetry, and pe
 
 ## Table of contents
 
-- [What is this](#what-is-this)
-- [Features](#features)
-- [How content works](#how-content-works)
-- [Tech stack](#tech-stack)
-- [Getting started](#getting-started)
-- [Project structure](#project-structure)
-- [Design system](#design-system)
-- [Deployment](#deployment)
-- [Roadmap](#roadmap)
-- [Publishing content](#publishing-content)
-- [License](#license)
+- [the-docket](#the-docket)
+  - [What is this](#what-is-this)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [How content works](#how-content-works)
+  - [Tech stack](#tech-stack)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [1. Clone and install](#1-clone-and-install)
+    - [2. Environment variables](#2-environment-variables)
+    - [3. Run the database schema](#3-run-the-database-schema)
+    - [4. Start the dev server](#4-start-the-dev-server)
+    - [Available scripts](#available-scripts)
+  - [Project structure](#project-structure)
+  - [Design system](#design-system)
+  - [Deployment](#deployment)
+  - [Roadmap](#roadmap)
+  - [Publishing content](#publishing-content)
+  - [License](#license)
 
 ## Features
 
@@ -266,7 +274,7 @@ The live source of truth for build status is [`PROGRESS.md`](./PROGRESS.md). Thi
 - [x] Phase 0 — Repo bootstrap
 - [x] Phase 1 — Design tokens + layout shell
 - [x] Phase 2 — Supabase setup + home page
-- [ ] Phase 3 — Admin panel
+- [x] Phase 3 — Admin panel
 - [ ] Phase 4 — Post detail page
 - [ ] Phase 5 — Section / archive pages + filter drawer
 - [ ] Phase 6 — Search + dark mode polish

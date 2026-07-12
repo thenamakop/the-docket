@@ -25,6 +25,7 @@ export default function AdminLoginPage() {
     });
 
     if (signInError) {
+      console.error('Sign-in error:', signInError);
       setError("Email or password didn't match — try again.");
       setLoading(false);
       return;

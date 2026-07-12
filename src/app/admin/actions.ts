@@ -71,7 +71,7 @@ async function generateDocketNo(): Promise<string> {
   const { data, error } = await supabase
     .from('posts')
     .select('docket_no')
-    .order('created_at', { ascending: false })
+    .order('docket_no', { ascending: false })
     .limit(1);
 
   if (error) {
