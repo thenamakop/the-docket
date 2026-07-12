@@ -261,7 +261,17 @@ Everything runs on free tiers unless you add a custom domain.
 1. Create a **Supabase** project and run `supabase/schema.sql` in the SQL Editor.
 2. Create a single auth user in Supabase for the site owner.
 3. Click the **Deploy to Vercel** button at the top of this README, or create a Vercel project from this GitHub repo.
-4. Add the two environment variables in Vercel: `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+4. Add environment variables in Vercel (Project Settings → Environment Variables):
+
+   | Variable                        | Where to find it                                                             |
+   | ------------------------------- | ---------------------------------------------------------------------------- |
+   | `NEXT_PUBLIC_SUPABASE_URL`      | Supabase → Project Settings → API                                            |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API                                            |
+   | `NEXT_PUBLIC_SENTRY_DSN`        | Sentry → Project Settings → Client Keys (DSN)                                |
+   | `SENTRY_AUTH_TOKEN`             | Sentry → Settings → Auth Tokens (needed for source map upload at build time) |
+   | `SENTRY_ORG`                    | Your Sentry org slug                                                         |
+   | `SENTRY_PROJECT`                | Your Sentry project slug                                                     |
+
 5. Vercel builds and deploys on every push to `main`.
 6. Optional: add a custom domain (the only paid item, roughly $10–15/year).
 
