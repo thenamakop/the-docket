@@ -41,10 +41,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://the-docket.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://daalbaatichurma.vercel.app';
 
 export const metadata: Metadata = {
-  title: 'the-docket',
+  title: 'DaalBaatiChurma',
   description:
     'A personal editorial blog for essays, reviews, poetry, and personal writing.',
   metadataBase: new URL(SITE_URL),
@@ -54,11 +54,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'the-docket',
+    title: 'DaalBaatiChurma',
     description:
       'A personal editorial blog for essays, reviews, poetry, and personal writing.',
     url: '/',
-    siteName: 'the-docket',
+    siteName: 'DaalBaatiChurma',
     locale: 'en_US',
     type: 'website',
   },

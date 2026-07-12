@@ -1,17 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Link2, X } from 'lucide-react';
+import { Link2 } from 'lucide-react';
 
 interface ShareRowProps {
   url: string;
   title: string;
 }
 
-export function ShareRow({ url, title }: ShareRowProps) {
+export function ShareRow({ url }: ShareRowProps) {
   const [feedback, setFeedback] = useState<string | null>(null);
-  const shareText = encodeURIComponent(title);
-  const twitterHref = `https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(url)}`;
 
   const copyLink = async () => {
     if (typeof navigator === 'undefined' || !navigator.clipboard) {
@@ -31,17 +29,7 @@ export function ShareRow({ url, title }: ShareRowProps) {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <a
-        href={twitterHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rule bg-parchment text-slate transition-colors hover:border-oxblood hover:text-oxblood focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
-        aria-label="Share on X / Twitter"
-      >
-        <X className="h-4 w-4" aria-hidden="true" />
-      </a>
-
+    <div className="flex items-center justify-center">
       <div className="relative">
         <button
           type="button"

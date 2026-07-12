@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Rss, X } from 'lucide-react';
+import { Rss } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -53,9 +53,9 @@ export function Footer() {
               About
             </h2>
             <p className="font-body text-base leading-relaxed text-slate">
-              The Docket is a personal editorial blog for essays, book reviews,
-              poetry, and the occasional personal note. It is written, edited,
-              and published by one person from a quiet room.
+              DaalBaatiChurma is a personal editorial blog for essays, book
+              reviews, poetry, and the occasional personal note. Written,
+              edited, and published by Pradyumn Singh Mephawat.
             </p>
           </div>
 
@@ -107,12 +107,6 @@ export function Footer() {
                 <Rss className="h-4 w-4" aria-hidden="true" />
                 RSS
               </Link>
-              <Link
-                href="#"
-                className="inline-flex items-center gap-1.5 font-ui text-sm text-slate transition-colors hover:text-oxblood focus:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment-dim"
-              >
-                <X className="h-4 w-4" aria-hidden="true" />X / Twitter
-              </Link>
             </div>
           </div>
         </div>
@@ -120,8 +114,8 @@ export function Footer() {
         <div className="mt-12 border-t border-rule pt-10">
           <blockquote className="mx-auto max-w-3xl text-center">
             <p className="font-display text-2xl font-normal italic leading-snug text-ink sm:text-3xl">
-              &ldquo;A blog is a labor of love: a place to think slowly, write
-              carefully, and leave a record behind.&rdquo;
+              &ldquo;Good writing is slow food: made with care, eaten without
+              hurry, and remembered long after the meal.&rdquo;
             </p>
           </blockquote>
         </div>

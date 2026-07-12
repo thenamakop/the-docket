@@ -11,7 +11,7 @@ create table posts (
   dek                   text,                        -- short excerpt; auto-derived from body if left blank
   body_html             text not null,                -- sanitized HTML from the rich text editor
   cover_image_url       text,
-  author                text not null default 'Site Owner',
+  author                text not null default 'Pradyumn Singh Mephawat',
   status                text not null default 'draft' check (status in ('draft','published')),
   published_at          timestamptz,
   reading_time_minutes  int,

@@ -135,7 +135,7 @@ export async function createPost(formData: PostFormData) {
     dek: null,
     body_html: bodyHtml,
     cover_image_url: coverImageUrl,
-    author: 'Site Owner',
+    author: 'Pradyumn Singh Mephawat',
     status,
     published_at: publishedAt,
     reading_time_minutes: readingTime,

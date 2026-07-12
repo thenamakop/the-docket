@@ -1,7 +1,7 @@
 import { getPublishedPosts, sectionLabel } from '@/lib/posts';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://the-docket.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://daalbaatichurma.vercel.app';
 
 function escapeXml(value: string): string {
   return value
@@ -44,7 +44,7 @@ export async function GET() {
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>the-docket</title>
+    <title>DaalBaatiChurma</title>
     <link>${SITE_URL}</link>
     <description>A personal editorial blog for essays, reviews, poetry, and personal writing.</description>
     <language>en</language>

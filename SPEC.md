@@ -1,4 +1,4 @@
-# The Docket — Spec & Build Prompts
+# DaalBaatiChurma — Spec & Build Prompts
 
 ### A modern editorial blog, inspired by bharatchugh.in (not a 1:1 clone)
 
@@ -54,7 +54,7 @@ Behind the scenes, there's one more piece:
 - **Supabase** — hosts the database (the filing cabinet) and stores uploaded photos.
 - **GitHub** — stores the website's code (only relevant if the design ever needs to change — not needed for day-to-day posting).
 
-None of these three require ongoing payment for a site at this scale. The only genuinely optional cost in the entire system is a custom domain name (e.g. `bharatchugh.in` instead of a free `the-docket.vercel.app` address) — that's roughly $10–15/year from any domain registrar, and only needed if a branded URL matters. Since you asked to keep this fully free, the build below defaults to the free Vercel subdomain, with a clear one-step upgrade path if a custom domain is added later.
+None of these three require ongoing payment for a site at this scale. The only genuinely optional cost in the entire system is a custom domain name (instead of a free `daalbaatichurma.vercel.app` address) — that's roughly $10–15/year from any domain registrar, and only needed if a branded URL matters. Since you asked to keep this fully free, the build below defaults to the free Vercel subdomain, with a clear one-step upgrade path if a custom domain is added later.
 
 ---
 
@@ -162,7 +162,7 @@ create table posts (
   dek                   text,                        -- short excerpt; auto-derived from body if left blank
   body_html             text not null,                -- sanitized HTML from the rich text editor
   cover_image_url       text,
-  author                text not null default 'Site Owner',
+  author                text not null default 'Pradyumn Singh Mephawat',
   status                text not null default 'draft' check (status in ('draft','published')),
   published_at          timestamptz,
   reading_time_minutes  int,
@@ -305,7 +305,7 @@ the-docket/
 2. **Vercel** — connect it to the GitHub repo; every push to `main` auto-deploys. Free tier easily covers a personal blog's traffic.
 3. **Supabase** — one free project holds the database, file storage, and the single admin login. Free tier limits (500MB database, 1GB file storage, 50,000 monthly active users on auth) are far beyond what a personal blog needs.
 
-**Domain**: the free setup gives a URL like `the-docket.vercel.app`. If a custom domain matters (e.g. `bharatchugh.in`-style branding), that's the one line item that costs money — about $10–15/year from any registrar (Namecheap, Google Domains' successor, etc.) — pointed at Vercel with a couple of DNS records. Entirely optional; the rest of the stack doesn't change either way.
+**Domain**: the free setup gives a URL like `daalbaatichurma.vercel.app`. If a custom domain matters, that's the one line item that costs money — about $10–15/year from any registrar (Namecheap, Google Domains' successor, etc.) — pointed at Vercel with a couple of DNS records. Entirely optional; the rest of the stack doesn't change either way.
 
 **Recommended ownership pattern for handoff**:
 
@@ -340,7 +340,7 @@ Each phase below is a complete, paste-ready prompt for Kimi K2.7 Code. Run them 
 ### Phase 0 — Repo bootstrap
 
 ```
-Context: I'm starting a new Next.js 15 project called "the-docket" — a
+Context: I'm starting a new Next.js 15 project called "DaalBaatiChurma" — a
 personal editorial blog where the ONLY author publishes posts through a
 simple admin form (no git/code editing for content). This is Phase 0 of an
 8-phase build. There is no existing code in this directory.
@@ -729,7 +729,7 @@ than hardcoding fallback values into the code.
 ## 13. Notes for you
 
 - **Placeholder content**: Phase 2 seeds 8 _original_ placeholder posts so the shell has something to look at — swap them for real writing (or delete them) once Phase 3's admin panel exists, by just logging in and using it like any other post.
-- **Naming**: "The Docket" is a placeholder brand name — swap the masthead text in Phase 1.
+- **Naming**: Site is branded "DaalBaatiChurma" by Pradyumn Singh Mephawat — all masthead text and metadata reflect this.
 - **The non-technical guide**: once the site is live, ping me and I'll draft the actual one-page "how to add a post" handoff document referenced in Section 10 — it's a five-minute job once there are real screenshots to point to.
 - **Scope check**: if Kimi K2.7 Code tries to add things not in a given phase's prompt (a second admin user, comments, a CMS-style page builder, etc.), redirect it back to the phase's stated goal.
 - **Verification discipline**: every phase ends with concrete checks. If one fails, stop and fix before moving on — don't stack Phase 4 on top of a Phase 3 whose auth guard is silently broken.

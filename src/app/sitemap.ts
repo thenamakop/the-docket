@@ -7,7 +7,7 @@ import {
 import type { SectionSlug } from '@/lib/post-data';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://the-docket.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://daalbaatichurma.vercel.app';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPublishedPosts(1000);

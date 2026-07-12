@@ -10,9 +10,9 @@ interface SearchPageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Search — the-docket',
+  title: 'Search — DaalBaatiChurma',
   description:
-    'Search essays, reviews, and poems from the-docket by title, description, or body text.',
+    'Search essays, reviews, and poems from DaalBaatiChurma by title, description, or body text.',
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

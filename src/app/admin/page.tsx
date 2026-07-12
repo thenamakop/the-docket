@@ -6,7 +6,7 @@ import { DeletePostButton } from '@/components/admin/delete-post-button';
 import { LogoutButton } from '@/components/admin/logout-button';
 
 export const metadata = {
-  title: 'Admin — the-docket',
+  title: 'Admin — DaalBaatiChurma',
 };
 
 export const revalidate = 0;

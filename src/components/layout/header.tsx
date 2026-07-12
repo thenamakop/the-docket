@@ -51,7 +51,7 @@ export function Header({ sectionCounts, archiveYears }: HeaderProps) {
           href="/"
           className="font-display text-2xl font-medium tracking-tight text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
         >
-          the-docket
+          DaalBaatiChurma
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">

@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { section } = await params;
   const label = sectionLabel(section as SectionSlug);
   return {
-    title: `${label} — the-docket`,
+    title: `${label} — DaalBaatiChurma`,
     description: `Essays, reviews, and poems filed under ${label}.`,
   };
 }

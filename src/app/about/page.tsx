@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About — the-docket',
+  title: 'About — DaalBaatiChurma',
   description:
-    'The Docket is a personal editorial blog for essays, book reviews, poetry, and personal writing.',
+    'DaalBaatiChurma is a personal editorial blog for essays, book reviews, poetry, and personal writing.',
 };
 
 export default function AboutPage() {
@@ -14,16 +14,15 @@ export default function AboutPage() {
       </h1>
       <div className="prose prose-lg mt-8 font-body text-ink">
         <p>
-          The Docket is a personal editorial blog for essays, book reviews,
+          DaalBaatiChurma is a personal editorial blog for essays, book reviews,
           poetry, and the occasional personal note. It is written, edited, and
-          published by one person from a quiet room.
+          published by Pradyumn Singh Mephawat from a quiet room.
         </p>
         <p>
-          The name refers to the list of cases waiting to be heard in a court.
-          Here, the docket is a list of ideas waiting to be written: arguments
-          with themselves, books that refuse to be forgotten, places that keep
-          their hold, and the small observations that accumulate into something
-          worth sharing.
+          The name is a nod to a dish that takes time: slow heat, careful
+          assembly, and the comfort that comes from things made without
+          shortcuts. This site works the same way — ideas arrived at slowly,
+          written carefully, and left here as a record worth keeping.
         </p>
         <p>
           No analytics, no tracking, no comments. If you would like to get in

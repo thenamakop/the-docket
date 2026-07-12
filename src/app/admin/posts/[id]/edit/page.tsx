@@ -4,7 +4,7 @@ import { getPostById } from '@/lib/posts';
 import { PostForm } from '@/components/admin/post-form';
 
 export const metadata = {
-  title: 'Edit Post — the-docket',
+  title: 'Edit Post — DaalBaatiChurma',
 };
 
 interface EditPostPageProps {

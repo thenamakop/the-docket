@@ -3,7 +3,7 @@ import { getPostBySlug } from '@/lib/posts';
 import { sectionLabel } from '@/lib/post-data';
 
 export const runtime = 'edge';
-export const alt = 'the-docket';
+export const alt = 'DaalBaatiChurma';
 export const size = {
   width: 1200,
   height: 630,
@@ -33,7 +33,7 @@ export default async function OpenGraphImage({ params }: OpenGraphImageProps) {
           fontSize: 64,
         }}
       >
-        the-docket
+        DaalBaatiChurma
       </div>,
       { ...size }
     );
@@ -99,7 +99,7 @@ export default async function OpenGraphImage({ params }: OpenGraphImageProps) {
         )}
       </div>
 
-      <div style={{ fontSize: 28, color: '#5b5f6b' }}>the-docket</div>
+      <div style={{ fontSize: 28, color: '#5b5f6b' }}>DaalBaatiChurma</div>
     </div>,
     { ...size }
   );

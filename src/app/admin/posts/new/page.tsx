@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PostForm } from '@/components/admin/post-form';
 
 export const metadata = {
-  title: 'New Post — the-docket',
+  title: 'New Post — DaalBaatiChurma',
 };
 
 export default async function NewPostPage() {

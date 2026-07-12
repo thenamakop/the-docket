@@ -161,3 +161,33 @@ Verification:
 - `GET /admin` (unauthenticated) returns `307 → /admin/login`.
 - `npm run lint` — 0 errors, 0 warnings.
 - `npm run build` — succeeds; route legend shows `ƒ Proxy (Middleware)` confirming proxy.ts is active.
+
+## Brand & author pivot — DaalBaatiChurma / Pradyumn Singh Mephawat
+
+Status: complete (2026-07-13)
+
+Summary: Deliberate brand rename from "The Docket" / "the-docket" to **DaalBaatiChurma**, and author identity updated to **Pradyumn Singh Mephawat** throughout. No technical behavior changed.
+
+Changes:
+
+- All page `<title>` metadata and `openGraph.title` / `openGraph.siteName` updated to "DaalBaatiChurma".
+- Header masthead text updated.
+- Footer About blurb updated to reference DaalBaatiChurma and Pradyumn Singh Mephawat.
+- Footer pull-quote rewritten (old: generic blog labor-of-love quote; new: warm food/writing metaphor suited to the new name).
+- Twitter/X link removed entirely from the footer "Elsewhere" section — no X account to link.
+- `src/components/post/share-row.tsx` — Twitter share button and `twitterHref` variable removed; only the copy-link button remains, centered in its container.
+- RSS `<channel><title>` updated to "DaalBaatiChurma".
+- OG image alt text and rendered branding updated in both `opengraph-image.tsx` files.
+- `supabase/schema.sql` author column default changed from `'Site Owner'` to `'Pradyumn Singh Mephawat'` (affects new rows only; existing seed rows were authored by 'Site Owner' and are left as-is in the DB).
+- `src/app/admin/actions.ts` hardcoded `'Site Owner'` updated to `'Pradyumn Singh Mephawat'`.
+- `package.json` "name" field updated to `"daalbaatichurma"`.
+- `SPEC.md` title line, domain examples, author default, and Phase 1 naming note all updated.
+- All fallback `NEXT_PUBLIC_SITE_URL` values updated from `the-docket.vercel.app` to `daalbaatichurma.vercel.app`.
+
+Identifiers intentionally left unchanged (not user-facing branding):
+
+- `docket_no` database column name — structural DB field, renaming requires a migration with no user benefit.
+- `DocketBadge` component name and file — internal code identifier.
+- `docket_no` variable references throughout `src/lib/posts.ts` and `src/app/admin/actions.ts` — same reason.
+- GitHub repo URL `thenamakop/the-docket` — outside scope; renaming the GitHub repo is a separate manual step.
+- `package-lock.json` "name" field — regenerated automatically on next `npm install`; not committing the lockfile name change separately.

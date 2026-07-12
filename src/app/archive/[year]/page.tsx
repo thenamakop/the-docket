@@ -18,7 +18,7 @@ export async function generateMetadata({
 }: ArchiveYearPageProps): Promise<Metadata> {
   const { year } = await params;
   return {
-    title: `${year} — the-docket`,
+    title: `${year} — DaalBaatiChurma`,
     description: `Essays, reviews, and poems published in ${year}.`,
   };
 }

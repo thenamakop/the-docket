@@ -11,7 +11,7 @@ import { DocketBadge } from '@/components/post/docket-badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'the-docket',
+  title: 'DaalBaatiChurma',
   description:
     'A personal editorial blog for essays, reviews, poetry, and personal writing.',
 };

@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'the-docket';
+export const alt = 'DaalBaatiChurma';
 export const size = {
   width: 1200,
   height: 630,
@@ -36,7 +36,7 @@ export default function OpenGraphImage() {
             margin: 0,
           }}
         >
-          the-docket
+          DaalBaatiChurma
         </h1>
         <p style={{ fontSize: 32, color: '#5b5f6b', margin: 0 }}>
           A personal editorial blog
@@ -44,7 +44,7 @@ export default function OpenGraphImage() {
       </div>
 
       <div style={{ fontSize: 28, color: '#5b5f6b' }}>
-        the-docket.vercel.app
+        daalbaatichurma.vercel.app
       </div>
     </div>,
     { ...size }

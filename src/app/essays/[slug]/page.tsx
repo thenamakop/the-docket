@@ -28,18 +28,18 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: 'Not Found — the-docket',
+      title: 'Not Found — DaalBaatiChurma',
     };
   }
 
   return {
-    title: `${post.title} — the-docket`,
+    title: `${post.title} — DaalBaatiChurma`,
     description: post.dek ?? undefined,
     alternates: {
       canonical: `/essays/${post.slug}`,
     },
     openGraph: {
-      title: `${post.title} — the-docket`,
+      title: `${post.title} — DaalBaatiChurma`,
       description: post.dek?.replace(/<[^>]+>/g, '') ?? undefined,
       url: `/essays/${post.slug}`,
       type: 'article',
@@ -62,7 +62,9 @@ export default async function EssayPage({ params }: EssayPageProps) {
   }
 
   const related = await getRelatedPosts(post.id, post.section, 3);
-  const canonicalUrl = `https://the-docket.vercel.app/essays/${post.slug}`;
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://daalbaatichurma.vercel.app';
+  const canonicalUrl = `${siteUrl}/essays/${post.slug}`;
 
   return (
     <article className="flex-1">
