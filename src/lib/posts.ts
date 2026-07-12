@@ -33,6 +33,35 @@ export async function getPublishedPosts(
   return (data ?? []) as Post[];
 }
 
+export async function getPublishedSlugs(): Promise<{ slug: string }[]> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase environment variables for static slugs');
+    return [];
+  }
+
+  const url = new URL(`${supabaseUrl}/rest/v1/posts`);
+  url.searchParams.set('select', 'slug');
+  url.searchParams.set('status', 'eq.published');
+
+  const res = await fetch(url.toString(), {
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    console.error('getPublishedSlugs error:', res.statusText);
+    return [];
+  }
+
+  return (await res.json()) as { slug: string }[];
+}
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const supabase = await getSupabase();
   const { data, error } = await supabase

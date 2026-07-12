@@ -99,3 +99,98 @@
     text-wrap: balance;
   }
 }
+
+/* Essay reading typography */
+.essay-body {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.0625rem, 1.25vw + 0.75rem, 1.25rem);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.essay-body > * + * {
+  margin-top: 1.25em;
+}
+
+.essay-body p {
+  max-width: 68ch;
+}
+
+.essay-body h2,
+.essay-body h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-top: 1.75em;
+}
+
+.essay-body h2 {
+  font-size: clamp(1.5rem, 2vw + 0.75rem, 2rem);
+}
+
+.essay-body h3 {
+  font-size: clamp(1.25rem, 1.5vw + 0.75rem, 1.5rem);
+}
+
+.essay-body ul,
+.essay-body ol {
+  padding-left: 1.5em;
+  max-width: 62ch;
+}
+
+.essay-body li + li {
+  margin-top: 0.5em;
+}
+
+.essay-body a {
+  color: var(--oxblood);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.essay-body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.essay-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+/* Pull-quote marginalia */
+.essay-body blockquote {
+  margin: 1.5em 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--oxblood);
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.essay-body blockquote > * + * {
+  margin-top: 0.75em;
+}
+
+@media (min-width: 1024px) {
+  .essay-body blockquote {
+    float: left;
+    clear: left;
+    width: min(18rem, 25vw);
+    margin-left: calc(-1 * min(20rem, 28vw));
+    margin-right: 1.5rem;
+    margin-top: 0.25em;
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--oxblood);
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+
+  /* Clear floats after the blockquote's following sibling so the next body
+     paragraph starts fresh rather than wrapping under the pull-quote. */
+  .essay-body blockquote + * {
+    display: flow-root;
+  }
+}

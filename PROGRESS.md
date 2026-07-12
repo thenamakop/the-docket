@@ -77,7 +77,19 @@ Decisions not fully specified:
 
 ## Phase 4 — Post detail page
 
-Status: not started
+Status: complete
+
+Summary: Built the essay reading page at `src/app/essays/[slug]/page.tsx`. The header renders the docket badge, brass section label, large display title, italic dek, author, and a real `<time datetime="...">` element. The body is wrapped in `.essay-body` with a max-width of ~68ch, Newsreader body font at 18–20px, and line-height 1.65. CSS-only marginalia blockquotes float into the left gutter on desktop (≥1024px) with a thin oxblood vertical rule and display italic type; on mobile they collapse to an inline left-bordered quote. Added a share row (`src/components/post/share-row.tsx`) with an X/Twitter link and a copy-link button that shows a small tooltip confirmation. Related essays (`Read next`) pull up to 3 posts from the same section via `getRelatedPosts` and render with `PostCard`, gracefully showing fewer if not enough exist. Implemented `generateStaticParams` (using a new cookie-free `getPublishedSlugs` helper in `src/lib/posts.ts`) and `generateMetadata` for each post. Verified layout against a seed post and a fresh test post, confirmed pull-quote degradation at mobile widths, and ran Lighthouse on a production build: Performance 90, Accessibility 96, Best Practices 100, SEO 90. The temporary test post and Lighthouse artifacts were removed after verification.
+
+Deviations from SPEC.md:
+
+- None significant. Used the existing `X` icon from `lucide-react` instead of a Twitter-specific icon because the package version does not export `Twitter`.
+
+Decisions not fully specified:
+
+- Added `getPublishedSlugs()` that calls the Supabase REST API directly with the anon key so `generateStaticParams` can run at build time without `cookies()`.
+- Lighthouse was installed temporarily for verification and then uninstalled to keep dependencies minimal.
+- The copy-link tooltip shows "Link copied" on success and "Copy unavailable" as a graceful fallback when the Clipboard API is blocked.
 
 ## Phase 5 — Section / archive pages + filter drawer
 
