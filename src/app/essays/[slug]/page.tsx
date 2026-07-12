@@ -35,6 +35,21 @@ export async function generateMetadata({
   return {
     title: `${post.title} — the-docket`,
     description: post.dek ?? undefined,
+    alternates: {
+      canonical: `/essays/${post.slug}`,
+    },
+    openGraph: {
+      title: `${post.title} — the-docket`,
+      description: post.dek?.replace(/<[^>]+>/g, '') ?? undefined,
+      url: `/essays/${post.slug}`,
+      type: 'article',
+      publishedTime: post.published_at,
+      authors: [post.author],
+      images: [`/essays/${post.slug}/opengraph-image`],
+    },
+    twitter: {
+      card: 'summary_large_image',
+    },
   };
 }
 

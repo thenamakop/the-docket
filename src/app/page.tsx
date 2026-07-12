@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   getPublishedPosts,
@@ -8,6 +9,12 @@ import {
 import { PostCard } from '@/components/post/post-card';
 import { DocketBadge } from '@/components/post/docket-badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'the-docket',
+  description:
+    'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+};
 
 export const revalidate = 60;
 

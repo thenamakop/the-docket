@@ -115,4 +115,30 @@ Dark-mode QA pass: `suppressHydrationWarning` was already on the `<html>` elemen
 
 ## Phase 7 — Newsletter, RSS, SEO, deploy, handoff
 
-Status: not started
+Status: code complete; deploy pending user Vercel setup
+
+Summary: Wired the newsletter subscription endpoint at `src/app/api/subscribe/route.ts`. It validates the email with Zod, logs it server-side, and returns JSON success/error states. The footer form (`src/components/layout/footer.tsx`) now POSTs to this endpoint, shows loading/disabled state, and displays "Subscribed. Thank you!" or a validation/error message.
+
+Built a full-content RSS 2.0 feed in `src/app/rss.xml/route.ts` using `getPublishedPosts()`, including `<title>`, `<link>`, `<guid>`, `<pubDate>`, `<category>`, `<description>`, and `<content:encoded>` with the full post body. Added `alternates: { types: { 'application/rss+xml': '/rss.xml' } }` to the root layout metadata so feed readers and browsers can auto-discover it.
+
+Generated OG images with `@vercel/og`:
+
+- `src/app/opengraph-image.tsx` — default OG for the home page and any non-essay route.
+- `src/app/essays/[slug]/opengraph-image.tsx` — per-essay OG showing the docket number, section label, title, and dek on parchment/ink token colors.
+
+Added `src/app/sitemap.ts` covering `/`, `/about`, `/search`, every published essay, every section, and every archive year. No `/admin/*` URLs are included.
+
+Spot-checked metadata across page types: home, about, search, essay, section, archive, and admin pages all have explicit titles and descriptions. Essay pages additionally expose canonical URLs, `article:published_time`, authors, and `twitter:card` summary-large-image.
+
+Deployment is intentionally not performed from this session. Per your instructions, the Vercel project should be created under your own email/account. Once you create/import the project and add the required environment variables (see deploy checklist below), the production build should succeed. After deploy, the verification steps are: validate `/rss.xml` with an online RSS validator, check two essay OG images render, confirm `/sitemap.xml` has no `/admin` URLs, run Lighthouse on the live home page and one essay, and confirm `/admin/login` works with the existing Supabase auth credentials.
+
+Deploy checklist:
+
+- Create/import `https://github.com/thenamakop/the-docket` in Vercel.
+- Set framework preset to Next.js 16.
+- Add environment variables:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `NEXT_PUBLIC_SITE_URL` (e.g. `https://the-docket.vercel.app`)
+- Confirm the build command uses `npm run build` and install command uses `npm install`.
+- Deploy and note the production URL.

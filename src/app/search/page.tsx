@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -7,6 +8,12 @@ import { searchPosts } from '@/lib/posts';
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
 }
+
+export const metadata: Metadata = {
+  title: 'Search — the-docket',
+  description:
+    'Search essays, reviews, and poems from the-docket by title, description, or body text.',
+};
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q } = await searchParams;

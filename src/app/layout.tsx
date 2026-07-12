@@ -40,10 +40,28 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://the-docket.vercel.app';
+
 export const metadata: Metadata = {
   title: 'the-docket',
   description:
     'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    types: {
+      'application/rss+xml': '/rss.xml',
+    },
+  },
+  openGraph: {
+    title: 'the-docket',
+    description:
+      'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+    url: '/',
+    siteName: 'the-docket',
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
 export default async function RootLayout({
