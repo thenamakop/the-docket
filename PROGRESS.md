@@ -191,3 +191,26 @@ Identifiers intentionally left unchanged (not user-facing branding):
 - `docket_no` variable references throughout `src/lib/posts.ts` and `src/app/admin/actions.ts` — same reason.
 - GitHub repo URL `thenamakop/the-docket` — outside scope; renaming the GitHub repo is a separate manual step.
 - `package-lock.json` "name" field — regenerated automatically on next `npm install`; not committing the lockfile name change separately.
+
+## Taxonomy narrowing + seed data deletion
+
+Status: complete (2026-07-13)
+
+Summary: Non-destructive narrowing of the active content categories to two, plus deletion of all 8 placeholder seed posts that were written for an anonymous persona.
+
+Changes:
+
+- `src/components/layout/header.tsx` — `navLinks` reduced from four entries to two: Book Reviews and Personal Essays. The "Essays" link to `/` (redundant with the masthead) and the "Poetry" link to `/section/poetry-fiction` are removed.
+- `src/components/admin/post-form.tsx` — Category `<select>` now renders only `book-reviews` and `personal-essays`. The full `sectionLabels` map and `SectionSlug` type are untouched; an `activeSectionSlugs` constant gates what the form offers. Form description copy updated ("essay or book review" instead of "essay, review, or poem").
+- `src/components/layout/filter-drawer.tsx` — Sections list filtered to the same two active slugs via `activeSections` constant. Archive accordion unchanged.
+- `src/app/page.tsx` — Home page empty state replaced with a warmer branded message: "New writing is on its way." with a supporting line.
+- `src/app/section/[section]/page.tsx` — Metadata description copy updated (removed reference to "poems").
+- `supabase/schema.sql` (comment added) and `SPEC.md` — documented that the four retired sections remain valid at the DB/type level for backward compat.
+- `scripts/delete-seed-posts.mjs` — Script written and executed: deleted all 8 placeholder seed posts (No. 001–008) from the live Supabase table using the service role key. Table is now empty.
+
+What was NOT changed:
+
+- `SectionSlug` type in `src/lib/post-data.ts` — all six slugs remain valid.
+- `section` CHECK constraint in `supabase/schema.sql` — all six values remain accepted.
+- `generateStaticParams` in `/section/[section]/page.tsx` — still generates all six section routes at build time. All four retired routes still resolve gracefully (empty-state page, not a 404).
+- No replacement content was written or seeded in Pradyumn's name.

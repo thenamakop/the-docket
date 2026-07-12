@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPost, updatePost, type PostFormData } from '@/app/admin/actions';
 import { sectionLabels, type Post, type SectionSlug } from '@/lib/post-data';
+
+// Only these two sections are active for new content.
+// The others remain valid at the data-model level but are not offered in the form.
+const activeSectionSlugs: SectionSlug[] = ['book-reviews', 'personal-essays'];
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -33,7 +37,9 @@ export function PostForm({ post }: PostFormProps) {
   const [error, setError] = useState('');
   const [pending, setPending] = useState(false);
 
-  const sections = Object.entries(sectionLabels) as [SectionSlug, string][];
+  const sections = activeSectionSlugs.map(
+    (slug) => [slug, sectionLabels[slug]] as [SectionSlug, string]
+  );
 
   const handleSubmit = async (intent: 'draft' | 'publish') => {
     setError('');
@@ -69,8 +75,8 @@ export function PostForm({ post }: PostFormProps) {
         </h1>
         <p className="font-body text-base text-slate">
           {post
-            ? 'Update your essay, review, or poem.'
-            : 'Write a new essay, review, or poem.'}
+            ? 'Update your essay or book review.'
+            : 'Write a new essay or book review.'}
         </p>
       </div>
 

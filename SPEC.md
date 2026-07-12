@@ -159,6 +159,10 @@ create table posts (
                             'law-justice','criminal-justice','book-reviews',
                             'personal-essays','poetry-fiction','guest-posts'
                           )),
+                          -- Active sections for new content: 'book-reviews', 'personal-essays'
+                          -- The other four ('law-justice','criminal-justice','poetry-fiction',
+                          -- 'guest-posts') remain valid at the DB level for backward compat
+                          -- but are not offered in the admin form or shown in the nav/drawer.
   dek                   text,                        -- short excerpt; auto-derived from body if left blank
   body_html             text not null,                -- sanitized HTML from the rich text editor
   cover_image_url       text,

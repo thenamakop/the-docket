@@ -11,10 +11,8 @@ import { CommandPalette } from './command-palette';
 import type { SectionSlug } from '@/lib/post-data';
 
 const navLinks = [
-  { label: 'Essays', href: '/' },
   { label: 'Book Reviews', href: '/section/book-reviews' },
-  { label: 'Personal', href: '/section/personal-essays' },
-  { label: 'Poetry', href: '/section/poetry-fiction' },
+  { label: 'Personal Essays', href: '/section/personal-essays' },
 ];
 
 interface HeaderProps {

@@ -103,9 +103,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
             </div>
           ) : (
-            <div className="py-12 text-center">
-              <p className="font-body text-lg text-slate">
-                No published essays yet.
+            <div className="mx-auto max-w-xl py-16 text-center">
+              <p className="font-display text-3xl font-medium italic leading-snug text-ink sm:text-4xl">
+                New writing is on its way.
+              </p>
+              <p className="mt-4 font-body text-base leading-relaxed text-slate">
+                Check back soon — essays and book reviews are being prepared
+                slowly and with care.
               </p>
             </div>
           )}

@@ -22,7 +22,7 @@ export async function generateMetadata({
   const label = sectionLabel(section as SectionSlug);
   return {
     title: `${label} — DaalBaatiChurma`,
-    description: `Essays, reviews, and poems filed under ${label}.`,
+    description: `Writing filed under ${label}.`,
   };
 }
 
