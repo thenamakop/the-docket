@@ -1,5 +1,6 @@
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import type { Post, SectionSlug } from '@/lib/post-data';
+import { sectionLabels } from '@/lib/post-data';
 
 export type { Post, SectionSlug };
 export {
@@ -11,6 +12,77 @@ export {
 
 async function getSupabase() {
   return createServerClient();
+}
+
+function supabaseRestUrl(path: string): string {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}${path}`;
+}
+
+function supabaseRestHeaders(): Record<string, string> {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+  };
+}
+
+export async function getSectionCounts(): Promise<Record<SectionSlug, number>> {
+  const counts = Object.fromEntries(
+    Object.keys(sectionLabels).map((key) => [key as SectionSlug, 0])
+  ) as Record<SectionSlug, number>;
+
+  try {
+    const res = await fetch(
+      supabaseRestUrl('/rest/v1/posts?select=section&status=eq.published'),
+      {
+        headers: supabaseRestHeaders(),
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!res.ok) {
+      console.error('getSectionCounts error:', res.statusText);
+      return counts;
+    }
+
+    const data = (await res.json()) as { section: SectionSlug }[];
+    for (const row of data) {
+      if (row.section in counts) {
+        counts[row.section] = (counts[row.section] ?? 0) + 1;
+      }
+    }
+  } catch (error) {
+    console.error('getSectionCounts error:', error);
+  }
+
+  return counts;
+}
+
+export async function getPublishedYears(): Promise<number[]> {
+  try {
+    const res = await fetch(
+      supabaseRestUrl('/rest/v1/posts?select=published_at&status=eq.published'),
+      {
+        headers: supabaseRestHeaders(),
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!res.ok) {
+      console.error('getPublishedYears error:', res.statusText);
+      return [];
+    }
+
+    const data = (await res.json()) as { published_at: string }[];
+    const years = new Set<number>();
+    for (const row of data) {
+      years.add(new Date(row.published_at).getUTCFullYear());
+    }
+    return Array.from(years).sort((a, b) => b - a);
+  } catch (error) {
+    console.error('getPublishedYears error:', error);
+    return [];
+  }
 }
 
 export async function getPublishedPosts(

@@ -3,8 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { Search, Moon, Sun } from 'lucide-react';
+import { Search, Moon, Sun, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { FilterDrawer } from './filter-drawer';
+import type { SectionSlug } from '@/lib/post-data';
 
 const navLinks = [
   { label: 'Essays', href: '/' },
@@ -13,7 +16,12 @@ const navLinks = [
   { label: 'Poetry', href: '/section/poetry-fiction' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  sectionCounts: Record<SectionSlug, number>;
+  archiveYears: number[];
+}
+
+export function Header({ sectionCounts, archiveYears }: HeaderProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
 
@@ -57,6 +65,28 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Sheet>
+            <SheetTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Open sections menu"
+                  className="items-center gap-2 font-ui text-xs font-medium uppercase tracking-[0.08em] text-slate hover:bg-parchment-dim hover:text-oxblood focus-visible:ring-oxblood"
+                >
+                  <Menu className="h-4 w-4" aria-hidden="true" />
+                  <span className="hidden md:inline">Sections</span>
+                </Button>
+              }
+            />
+            <SheetContent side="right">
+              <FilterDrawer
+                sectionCounts={sectionCounts}
+                archiveYears={archiveYears}
+              />
+            </SheetContent>
+          </Sheet>
+
           <Button
             variant="ghost"
             size="icon"

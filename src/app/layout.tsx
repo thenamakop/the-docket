@@ -9,6 +9,7 @@ import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { getSectionCounts, getPublishedYears } from '@/lib/posts';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -45,11 +46,16 @@ export const metadata: Metadata = {
     'A personal editorial blog for essays, reviews, poetry, and personal writing.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [sectionCounts, archiveYears] = await Promise.all([
+    getSectionCounts(),
+    getPublishedYears(),
+  ]);
+
   return (
     <html
       lang="en"
@@ -58,7 +64,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-parchment text-ink">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
+          <Header sectionCounts={sectionCounts} archiveYears={archiveYears} />
           <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>

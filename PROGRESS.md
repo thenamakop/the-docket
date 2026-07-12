@@ -93,7 +93,15 @@ Decisions not fully specified:
 
 ## Phase 5 — Section / archive pages + filter drawer
 
-Status: not started
+Status: complete
+
+Summary: Built the filtered index pages and the slide-out filter drawer. `src/app/section/[section]/page.tsx` and `src/app/archive/[year]/page.tsx` reuse the home-page pattern: grouped `PostCard` grids per year, a heading that names the active filter, and a "← Back to all essays" link. Both routes use `generateStaticParams` so all six sections and every year with published posts resolve at build time with no 404s. Added `getSectionCounts()` and `getPublishedYears()` helpers in `src/lib/posts.ts` that query the Supabase REST API directly (cookie-free) so the data can be fetched server-side in `layout.tsx` and passed to the header.
+
+`src/components/layout/filter-drawer.tsx` is a shadcn `Sheet` containing a `nav` of all six sections with live count badges rendered in `font-mono`. Counts are computed from published posts; sections with zero posts still appear with a `0` badge because the count map is initialized with every `SectionSlug` key. Below the sections is a collapsed-by-default Archive accordion that lists years with published posts, linking to `/archive/[year]`.
+
+The trigger is a new "Sections" button placed in the existing right-hand button group in `src/components/layout/header.tsx`, immediately before the Search button. I put it there because the right group is the canonical location for global chrome actions (search, theme toggle) and it keeps the trigger reachable on every page at all breakpoints. The button shows icon-only on small screens and icon+"Sections" on `md` and up.
+
+Updated `src/components/ui/sheet.tsx` so sheets are full-width below `md` (mobile full-screen) and constrained to `max-w-sm` at `md` and above. Verified with Playwright: all six section pages return 200, archive pages for 2024 and 2025 return 200, drawer counts match the database, Escape closes the drawer and returns focus to the trigger, and the drawer spans the viewport width below 768px while becoming a side panel at 768px+.
 
 ## Phase 6 — Search + dark mode polish
 
