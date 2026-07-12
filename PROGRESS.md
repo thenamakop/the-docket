@@ -142,3 +142,22 @@ Deploy checklist:
   - `NEXT_PUBLIC_SITE_URL` (e.g. `https://the-docket.vercel.app`)
 - Confirm the build command uses `npm run build` and install command uses `npm install`.
 - Deploy and note the production URL.
+
+## Critical fixes — cookie crash, insecure session, middleware→proxy, lockfile warning
+
+Status: complete
+
+Changes:
+
+- `src/middleware.ts` → renamed to `src/proxy.ts` via the official `@next/codemod middleware-to-proxy` codemod. The exported function is now `proxy`; the `config` matcher block is unchanged. The old file no longer exists.
+- `src/proxy.ts` — replaced `supabase.auth.getSession()` with `supabase.auth.getUser()`. The new call revalidates the JWT against the Supabase Auth server on every request, making it impossible to spoof the session cookie. Redirect-to-/admin/login behavior is identical.
+- `src/lib/supabase/server.ts` — wrapped the `setAll` cookie write in `try/catch` to silence the crash that occurred when `createClient()` was called from a Server Component (which cannot write response cookies). The proxy refreshes the session on every request, so ignoring the error here is safe.
+- `src/lib/supabase/middleware.ts` — **deleted**. It contained only a single comment line and was never imported or used anywhere in the codebase. Keeping it would have been misleading; a proper `updateSession()` helper pattern is not needed here because `proxy.ts` instantiates the Supabase client directly.
+- `next.config.ts` — added `turbopack: { root: __dirname }` to silence the multiple-lockfiles warning (caused by a `pnpm-lock.yaml` at `C:\Users\mauli\` being detected as a workspace root). Also added `devIndicators: false` to remove the circular Next.js badge in dev mode.
+
+Verification:
+
+- `npm run dev` starts clean with none of the previous warnings in the terminal.
+- `GET /admin` (unauthenticated) returns `307 → /admin/login`.
+- `npm run lint` — 0 errors, 0 warnings.
+- `npm run build` — succeeds; route legend shows `ƒ Proxy (Middleware)` confirming proxy.ts is active.
