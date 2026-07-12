@@ -7,6 +7,7 @@ import { Search, Moon, Sun, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { FilterDrawer } from './filter-drawer';
+import { CommandPalette } from './command-palette';
 import type { SectionSlug } from '@/lib/post-data';
 
 const navLinks = [
@@ -24,6 +25,7 @@ interface HeaderProps {
 export function Header({ sectionCounts, archiveYears }: HeaderProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,10 +93,13 @@ export function Header({ sectionCounts, archiveYears }: HeaderProps) {
             variant="ghost"
             size="icon"
             aria-label="Search"
+            onClick={() => setSearchOpen(true)}
             className="text-slate hover:bg-parchment-dim hover:text-oxblood focus-visible:ring-oxblood"
           >
             <Search className="h-5 w-5" aria-hidden="true" />
           </Button>
+
+          <CommandPalette open={searchOpen} onOpenChange={setSearchOpen} />
 
           <Button
             variant="ghost"

@@ -85,6 +85,34 @@ export async function getPublishedYears(): Promise<number[]> {
   }
 }
 
+export async function searchPosts(query: string, limit = 8): Promise<Post[]> {
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+
+  try {
+    const encoded = encodeURIComponent(trimmed);
+    const res = await fetch(
+      supabaseRestUrl(
+        `/rest/v1/posts?or=(title.wfts.${encoded},dek.wfts.${encoded},body_html.wfts.${encoded})&status=eq.published&limit=${limit}&select=*`
+      ),
+      {
+        headers: supabaseRestHeaders(),
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!res.ok) {
+      console.error('searchPosts error:', res.statusText);
+      return [];
+    }
+
+    return (await res.json()) as Post[];
+  } catch (error) {
+    console.error('searchPosts error:', error);
+    return [];
+  }
+}
+
 export async function getPublishedPosts(
   limit = 20,
   offset = 0

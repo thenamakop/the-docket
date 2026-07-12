@@ -105,7 +105,13 @@ Updated `src/components/ui/sheet.tsx` so sheets are full-width below `md` (mobil
 
 ## Phase 6 — Search + dark mode polish
 
-Status: not started
+Status: complete
+
+Summary: Implemented real full-text search using Supabase/Postgres `websearch_to_tsquery`. Added `searchPosts(query, limit = 8)` in `src/lib/posts.ts` that queries the REST endpoint with `or=(title.wfts.query,dek.wfts.query,body_html.wfts.query)` and `status=eq.published`. Built `src/app/api/search/route.ts` as a thin wrapper returning `{ results: Post[] }`. Built `src/components/layout/command-palette.tsx` using the existing shadcn `CommandDialog`; it listens for `⌘K` / `Ctrl+K` globally, debounces input at 200ms, calls `/api/search`, and renders each result with the docket number, title, and section label, navigating to `/essays/[slug]` on select. The search icon in the header now opens the palette.
+
+Built `src/app/search/page.tsx` as a server-rendered full-page equivalent: a native `GET` form that re-renders with results when `?q=` is present. No client-side state management needed.
+
+Dark-mode QA pass: `suppressHydrationWarning` was already on the `<html>` element from Phase 1, so no flash-of-wrong-theme changes were needed. Verified that `--oxblood` swaps from `#7a2e2e` (light) to `#c4645f` (dark) and `--brass` swaps from `#a47b3d` to `#c9a063` on the essay page and homepage. Checked the admin post list in dark mode: table header (`bg-parchment-dim`), body (`bg-parchment`), borders (`border-rule`), and status badges all render correctly because every color is token-based. The filter drawer and command palette also inherit the dark palette through the shadcn token mappings.
 
 ## Phase 7 — Newsletter, RSS, SEO, deploy, handoff
 

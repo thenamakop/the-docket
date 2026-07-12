@@ -277,7 +277,7 @@ The live source of truth for build status is [`PROGRESS.md`](./PROGRESS.md). Thi
 - [x] Phase 3 — Admin panel
 - [x] Phase 4 — Post detail page
 - [x] Phase 5 — Section / archive pages + filter drawer
-- [ ] Phase 6 — Search + dark mode polish
+- [x] Phase 6 — Search + dark mode polish
 - [ ] Phase 7 — Newsletter, RSS, SEO, deploy, handoff
 
 ## Publishing content
