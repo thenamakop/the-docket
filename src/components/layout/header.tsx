@@ -13,6 +13,7 @@ import type { SectionSlug } from '@/lib/post-data';
 const navLinks = [
   { label: 'Book Reviews', href: '/section/book-reviews' },
   { label: 'Personal Essays', href: '/section/personal-essays' },
+  { label: 'About', href: '/about' },
 ];
 
 interface HeaderProps {
