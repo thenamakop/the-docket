@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const subscribeSchema = z.object({
   email: z.string().email('Please provide a valid email address.'),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as unknown;
     const result = subscribeSchema.safeParse(body);
@@ -19,44 +19,65 @@ export async function POST(request: Request) {
 
     const { email } = result.data;
 
+    // Pass the visitor's real IP to Buttondown so their firewall evaluates
+    // the subscriber's IP rather than Vercel's shared outbound IP.
+    // Vercel sets x-forwarded-for; fall back to x-real-ip, then omit.
+    const visitorIp =
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+      request.headers.get('x-real-ip') ??
+      undefined;
+
     const bdRes = await fetch('https://api.buttondown.com/v1/subscribers', {
       method: 'POST',
       headers: {
         Authorization: `Token ${process.env.BUTTONDOWN_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email_address: email }),
+      body: JSON.stringify({
+        email_address: email,
+        ...(visitorIp ? { ip_address: visitorIp } : {}),
+      }),
     });
 
-    if (!bdRes.ok) {
-      // Log full body server-side for debugging, never surface it to the client.
-      const errText = await bdRes.text();
-      console.error(
-        `[subscribe] Buttondown error ${bdRes.status} for ${email}:`,
-        errText
-      );
+    if (bdRes.ok) {
+      // 201 — new subscriber created (unactivated, awaiting confirmation).
+      return NextResponse.json({ success: true });
+    }
 
-      if (bdRes.status === 429) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Too many requests — please try again in a little while.',
-          },
-          { status: 429 }
-        );
-      }
+    // Non-2xx: inspect the error code before deciding what to return.
+    const errBody = (await bdRes.json().catch(() => ({}))) as {
+      code?: string;
+    };
 
+    // Duplicate submission — treat as success; the subscriber already exists
+    // and will get (or has already received) a confirmation email.
+    if (errBody.code === 'email_already_exists') {
+      return NextResponse.json({ success: true });
+    }
+
+    // Log the full body server-side; never surface it to the client.
+    console.error(
+      `[subscribe] Buttondown error ${bdRes.status} (${errBody.code ?? 'unknown'}) for ${email}:`,
+      errBody
+    );
+
+    if (bdRes.status === 429) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Unable to subscribe right now. Please try again shortly.',
+          error: 'Too many requests — please try again in a little while.',
         },
-        { status: 502 }
+        { status: 429 }
       );
     }
 
-    // 2xx — new subscriber or already-subscribed (Buttondown returns 201 either way).
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Unable to subscribe right now. Please try again shortly.',
+      },
+      { status: 502 }
+    );
   } catch {
     return NextResponse.json(
       { success: false, error: 'Unable to process subscription.' },
