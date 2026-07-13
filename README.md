@@ -98,6 +98,7 @@ Copy `.env.local.example` to `.env.local` and fill in your Supabase credentials:
 # .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+BUTTONDOWN_API_KEY=your-buttondown-api-key   # Buttondown → Settings → API keys
 ```
 
 > `.env.local.example` is added during the Supabase setup phase (Phase 2). Until then, create `.env.local` manually with the two keys above.
@@ -271,6 +272,7 @@ Everything runs on free tiers unless you add a custom domain.
    | `SENTRY_AUTH_TOKEN`             | Sentry → Settings → Auth Tokens (needed for source map upload at build time) |
    | `SENTRY_ORG`                    | Your Sentry org slug                                                         |
    | `SENTRY_PROJECT`                | Your Sentry project slug                                                     |
+   | `BUTTONDOWN_API_KEY`            | Buttondown → Settings → API keys (server-only, no NEXT_PUBLIC_ prefix)       |
 
 5. Vercel builds and deploys on every push to `main`.
 6. Optional: add a custom domain (the only paid item, roughly $10–15/year).

@@ -19,11 +19,44 @@ export async function POST(request: Request) {
 
     const { email } = result.data;
 
-    // TODO: replace with <provider> API call once one is chosen.
-    // For now we log the address and return success so the UI can be tested.
-    console.log('[subscribe] new subscriber:', email);
+    const bdRes = await fetch('https://api.buttondown.com/v1/subscribers', {
+      method: 'POST',
+      headers: {
+        Authorization: `Token ${process.env.BUTTONDOWN_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email_address: email }),
+    });
 
-    return NextResponse.json({ success: true, email });
+    if (!bdRes.ok) {
+      // Log full body server-side for debugging, never surface it to the client.
+      const errText = await bdRes.text();
+      console.error(
+        `[subscribe] Buttondown error ${bdRes.status} for ${email}:`,
+        errText
+      );
+
+      if (bdRes.status === 429) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Too many requests — please try again in a little while.',
+          },
+          { status: 429 }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Unable to subscribe right now. Please try again shortly.',
+        },
+        { status: 502 }
+      );
+    }
+
+    // 2xx — new subscriber or already-subscribed (Buttondown returns 201 either way).
+    return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
       { success: false, error: 'Unable to process subscription.' },

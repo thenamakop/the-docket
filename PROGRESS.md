@@ -214,3 +214,24 @@ What was NOT changed:
 - `section` CHECK constraint in `supabase/schema.sql` — all six values remain accepted.
 - `generateStaticParams` in `/section/[section]/page.tsx` — still generates all six section routes at build time. All four retired routes still resolve gracefully (empty-state page, not a 404).
 - No replacement content was written or seeded in Pradyumn's name.
+
+## Newsletter wiring — Buttondown
+
+Status: complete (2026-07-13)
+
+Summary: Wired the subscribe form's API route to Buttondown's subscriber-creation endpoint. The stub `console.log` is replaced with a real `fetch` call; double opt-in is handled correctly in both the backend response and the frontend copy.
+
+Changes:
+
+- `src/app/api/subscribe/route.ts` — replaced the `// TODO` stub with a POST to `https://api.buttondown.com/v1/subscribers`. Any 2xx is treated as success (Buttondown returns 201 for both new and already-subscribed emails, so duplicate submissions are handled gracefully). 429 rate-limit responses return a "try again shortly" message. All other non-2xx responses are logged server-side and return a generic friendly error to the client — Buttondown's raw API error text is never surfaced to the user. `BUTTONDOWN_API_KEY` is read from `process.env` (server-only, no `NEXT_PUBLIC_` prefix, never in the client bundle).
+- `src/components/layout/footer.tsx` — success message updated from "Subscribed. Thank you!" to "You're on the list — check your inbox to confirm." (accurate for double opt-in). Success state now uses `text-brass`; error state keeps `text-oxblood` — visually distinct.
+- `.env.local` — `BUTTONDOWN_API_KEY` added (gitignored).
+- `.env.local.example` — `BUTTONDOWN_API_KEY` placeholder added with a comment.
+- `README.md` — `BUTTONDOWN_API_KEY` added to both the local setup code block and the Vercel environment variables table.
+
+Verification:
+
+- Submitted a real email: appeared in Buttondown dashboard as "unactivated" (awaiting confirmation), confirmation email arrived, clicking it moved the subscriber to confirmed. ✅
+- Submitted the same email a second time: site showed normal success message, no error. ✅
+- Submitted an invalid email (no @): Zod validation caught it before any API call. ✅
+- `BUTTONDOWN_API_KEY` confirmed absent from all client-side bundle chunks (server-only route handler only). ✅

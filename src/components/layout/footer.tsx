@@ -32,7 +32,7 @@ export function Footer() {
 
       if (res.ok && data.success) {
         setStatus('success');
-        setMessage('Subscribed. Thank you!');
+        setMessage("You're on the list — check your inbox to confirm.");
         setEmail('');
       } else {
         setStatus('error');
@@ -87,7 +87,7 @@ export function Footer() {
                 </Button>
               </div>
               {status === 'success' && (
-                <p className="font-ui text-sm text-oxblood">{message}</p>
+                <p className="font-ui text-sm text-brass">{message}</p>
               )}
               {status === 'error' && (
                 <p className="font-ui text-sm text-oxblood">{message}</p>
