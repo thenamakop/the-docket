@@ -46,7 +46,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   title: 'DaalBaatiChurma',
   description:
-    'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+    'A personal editorial blog for essays and book reviews by Pradyumn Singh Mephawat.',
   metadataBase: new URL(SITE_URL),
   alternates: {
     types: {
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'DaalBaatiChurma',
     description:
-      'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+      'A personal editorial blog for essays and book reviews by Pradyumn Singh Mephawat.',
     url: '/',
     siteName: 'DaalBaatiChurma',
     locale: 'en_US',

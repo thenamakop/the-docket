@@ -13,7 +13,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'DaalBaatiChurma',
   description:
-    'A personal editorial blog for essays, reviews, poetry, and personal writing.',
+    'A personal editorial blog for essays and book reviews by Pradyumn Singh Mephawat.',
 };
 
 export const revalidate = 60;
@@ -123,7 +123,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             Volume Index
           </h2>
           <p className="mt-1 font-body text-base text-slate">
-            Essays, reviews, and poems arranged by year.
+            Essays and reviews arranged by year.
           </p>
         </div>
 

@@ -54,8 +54,8 @@ export function Footer() {
             </h2>
             <p className="font-body text-base leading-relaxed text-slate">
               DaalBaatiChurma is a personal editorial blog for essays, book
-              reviews, poetry, and the occasional personal note. Written,
-              edited, and published by Pradyumn Singh Mephawat.
+              reviews, and the occasional personal note. Written, edited, and
+              published by Pradyumn Singh Mephawat.
             </p>
           </div>
 

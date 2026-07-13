@@ -24,7 +24,7 @@ export default function OpenGraphImage() {
       }}
     >
       <div style={{ fontSize: 28, color: '#a47b3d', fontWeight: 600 }}>
-        Essays, reviews, poetry, and personal writing
+        Essays and book reviews by Pradyumn Singh Mephawat
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
