@@ -77,9 +77,10 @@ The entire form, top to bottom:
 
 1. **Title** — plain text input.
 2. **Cover photo** — a drag-and-drop / click-to-upload box. Shows a preview once uploaded. Optional.
-3. **Category** — a dropdown with six plain-language options (Law & Justice, Criminal Justice, Book Reviews, Personal Essays, Poetry & Short Fiction, Guest Posts). Defaults to "Personal Essays" if skipped.
-4. **Write your post** — a rich text box with a small, obvious toolbar: **Bold, Italic, Heading, Bullet list, Numbered list, Quote, Insert link, Insert image**. No markdown, no code, no special syntax — this looks and behaves like a stripped-down Google Docs / Word.
-5. Two buttons at the bottom: **Save as Draft** and **Publish**.
+3. **Category** — a dropdown with three active options (Book Reviews, Personal Essays, Travel Diary). Defaults to "Personal Essays" if skipped. Six legacy values remain valid at the DB level for backward compatibility (law-justice, criminal-justice, poetry-fiction, guest-posts) but are not offered in the form.
+4. **Location (optional)** — a single free-form text field (e.g. "Udaipur, Rajasthan"). Shown for all posts regardless of category; leave blank for non-travel posts. Saved as `null` if empty.
+5. **Write your post** — a rich text box with a small, obvious toolbar: **Bold, Italic, Heading, Bullet list, Numbered list, Quote, Insert link, Insert image**. No markdown, no code, no special syntax — this looks and behaves like a stripped-down Google Docs / Word.
+6. Two buttons at the bottom: **Save as Draft** and **Publish**.
 
 That's it — four visible fields plus the two buttons. Everything else the site needs (the URL slug, the docket number, reading time, the publish timestamp) is generated automatically in the background and never shown to the user. A blockquote inserted via the "Quote" toolbar button automatically gets the site's marginalia/pull-quote visual treatment on the public page — the design decision from Section 4 below happens for free, with zero extra effort from whoever's writing.
 
@@ -157,9 +158,9 @@ create table posts (
   section               text not null default 'personal-essays'
                           check (section in (
                             'law-justice','criminal-justice','book-reviews',
-                            'personal-essays','poetry-fiction','guest-posts'
+                            'personal-essays','poetry-fiction','guest-posts','travel-diary'
                           )),
-                          -- Active sections for new content: 'book-reviews', 'personal-essays'
+                          -- Active sections for new content: 'book-reviews', 'personal-essays', 'travel-diary'
                           -- The other four ('law-justice','criminal-justice','poetry-fiction',
                           -- 'guest-posts') remain valid at the DB level for backward compat
                           -- but are not offered in the admin form or shown in the nav/drawer.

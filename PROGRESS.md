@@ -266,3 +266,33 @@ Verification (live URL — daal-baati-churma.vercel.app):
 - Bad Buttondown API key → HTTP 401 from Buttondown; route returns 502; `last_notified_at` confirmed unchanged (failure-path does not call the state update). ✅
 - Both test posts deleted; `last_notified_at` rewound to pre-test baseline. ✅
 - `npm run build` passes cleanly. ✅
+
+## Travel Diary section + location field
+
+Status: complete (2026-07-13)
+
+Summary: Expanded from two active sections to three at site owner's request. Travel Diary is a first-class section alongside Book Reviews and Personal Essays.
+
+Database migration (run manually in Supabase SQL Editor):
+
+- Dropped `posts_section_check` constraint and recreated it with `'travel-diary'` added to the allowed list.
+- Added nullable `location text` column to `posts`.
+- Both operations are non-destructive; no existing data was altered.
+
+Code changes:
+
+- `supabase/schema.sql`: updated section constraint + added `location` column to match live DB.
+- `src/lib/post-data.ts`: added `'travel-diary'` to `SectionSlug` union, `'Travel Diary'` to `sectionLabels`, `location: string | null` to `Post` interface.
+- `src/components/layout/header.tsx`: added "Travel Diary → /section/travel-diary" to `navLinks` (fourth link, before About).
+- `src/components/layout/filter-drawer.tsx`: added `'travel-diary'` to `activeSections` — shows live count.
+- `src/components/admin/post-form.tsx`: added Travel Diary as third category option; added "Location (optional)" text input always visible on the form; threads `location` through `PostFormData`.
+- `src/app/admin/actions.ts`: added `location: string | null` to `PostFormData`; passes it through on both `createPost` and `updatePost`.
+- `SPEC.md`: updated section list, category dropdown description, and schema block.
+
+Verification:
+
+- DB accepts `section = 'travel-diary'` — confirmed by live insert probe (HTTP 201, then cleaned up). ✅
+- `location` column present — confirmed by `GET /rest/v1/posts?select=id,location`. ✅
+- Admin form shows three category options and Location field. ✅
+- RSS feed and newsletter cron both operate on all published posts regardless of section — no code changes needed. ✅
+- `npm run build` passes cleanly. ✅

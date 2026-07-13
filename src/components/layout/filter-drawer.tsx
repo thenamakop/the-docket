@@ -6,8 +6,12 @@ import { ChevronDown } from 'lucide-react';
 import type { SectionSlug } from '@/lib/post-data';
 import { sectionLabels } from '@/lib/post-data';
 
-// Only these two sections are active for new content and shown in the drawer.
-const activeSections: SectionSlug[] = ['book-reviews', 'personal-essays'];
+// Active sections shown in the drawer — new content is published to these.
+const activeSections: SectionSlug[] = [
+  'book-reviews',
+  'personal-essays',
+  'travel-diary',
+];
 
 interface FilterDrawerProps {
   sectionCounts: Record<SectionSlug, number>;

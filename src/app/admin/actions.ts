@@ -9,6 +9,7 @@ import type { Post, SectionSlug } from '@/lib/post-data';
 export interface PostFormData {
   title: string;
   section: SectionSlug;
+  location: string | null;
   bodyHtml: string;
   coverImageUrl: string | null;
   intent: 'draft' | 'publish';
@@ -125,6 +126,7 @@ export async function createPost(formData: PostFormData) {
   const publishedAt =
     formData.intent === 'publish' ? new Date().toISOString() : null;
   const coverImageUrl = formData.coverImageUrl?.trim() || null;
+  const location = formData.location?.trim() || null;
   const section = formData.section;
 
   const { error } = await supabase.from('posts').insert({
@@ -135,6 +137,7 @@ export async function createPost(formData: PostFormData) {
     dek: null,
     body_html: bodyHtml,
     cover_image_url: coverImageUrl,
+    location,
     author: 'Pradyumn Singh Mephawat',
     status,
     published_at: publishedAt,
@@ -183,6 +186,7 @@ export async function updatePost(id: string, formData: PostFormData) {
       ? ((existing as Post).published_at ?? new Date().toISOString())
       : null;
   const coverImageUrl = formData.coverImageUrl?.trim() || null;
+  const location = formData.location?.trim() || null;
 
   const { error } = await supabase
     .from('posts')
@@ -192,6 +196,7 @@ export async function updatePost(id: string, formData: PostFormData) {
       section: formData.section,
       body_html: bodyHtml,
       cover_image_url: coverImageUrl,
+      location,
       status,
       published_at: publishedAt,
       reading_time_minutes: readingTime,

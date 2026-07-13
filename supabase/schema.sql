@@ -6,11 +6,12 @@ create table posts (
   section               text not null default 'personal-essays'
                           check (section in (
                             'law-justice','criminal-justice','book-reviews',
-                            'personal-essays','poetry-fiction','guest-posts'
+                            'personal-essays','poetry-fiction','guest-posts','travel-diary'
                           )),
   dek                   text,                        -- short excerpt; auto-derived from body if left blank
   body_html             text not null,                -- sanitized HTML from the rich text editor
   cover_image_url       text,
+  location              text,                        -- optional free-form location (e.g. "Udaipur, Rajasthan")
   author                text not null default 'Pradyumn Singh Mephawat',
   status                text not null default 'draft' check (status in ('draft','published')),
   published_at          timestamptz,

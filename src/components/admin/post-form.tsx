@@ -5,9 +5,13 @@ import { useRouter } from 'next/navigation';
 import { createPost, updatePost, type PostFormData } from '@/app/admin/actions';
 import { sectionLabels, type Post, type SectionSlug } from '@/lib/post-data';
 
-// Only these two sections are active for new content.
-// The others remain valid at the data-model level but are not offered in the form.
-const activeSectionSlugs: SectionSlug[] = ['book-reviews', 'personal-essays'];
+// Active sections offered in the form for new content.
+// Retired slugs remain valid at the data-model level but are not offered here.
+const activeSectionSlugs: SectionSlug[] = [
+  'book-reviews',
+  'personal-essays',
+  'travel-diary',
+];
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -30,6 +34,7 @@ export function PostForm({ post }: PostFormProps) {
   const [section, setSection] = useState<SectionSlug>(
     post?.section ?? 'personal-essays'
   );
+  const [location, setLocation] = useState(post?.location ?? '');
   const [bodyHtml, setBodyHtml] = useState(post?.body_html ?? '');
   const [coverImageUrl, setCoverImageUrl] = useState<string | null>(
     post?.cover_image_url ?? null
@@ -48,6 +53,7 @@ export function PostForm({ post }: PostFormProps) {
     const formData: PostFormData = {
       title,
       section,
+      location: location.trim() || null,
       bodyHtml,
       coverImageUrl,
       intent,
@@ -75,8 +81,8 @@ export function PostForm({ post }: PostFormProps) {
         </h1>
         <p className="font-body text-base text-slate">
           {post
-            ? 'Update your essay or book review.'
-            : 'Write a new essay or book review.'}
+            ? 'Update your essay, book review, or travel diary entry.'
+            : 'Write a new essay, book review, or travel diary entry.'}
         </p>
       </div>
 
@@ -137,6 +143,23 @@ export function PostForm({ post }: PostFormProps) {
               ))}
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label
+            htmlFor="location"
+            className="font-ui text-sm font-medium text-ink"
+          >
+            Location <span className="font-normal text-slate">(optional)</span>
+          </label>
+          <Input
+            id="location"
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="e.g. Udaipur, Rajasthan"
+            className="border-rule bg-parchment text-ink placeholder:text-slate focus-visible:ring-oxblood"
+          />
         </div>
 
         <div className="space-y-2">

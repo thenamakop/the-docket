@@ -4,7 +4,8 @@ export type SectionSlug =
   | 'book-reviews'
   | 'personal-essays'
   | 'poetry-fiction'
-  | 'guest-posts';
+  | 'guest-posts'
+  | 'travel-diary';
 
 export interface Post {
   id: string;
@@ -15,6 +16,7 @@ export interface Post {
   dek: string | null;
   body_html: string;
   cover_image_url: string | null;
+  location: string | null;
   author: string;
   status: 'draft' | 'published';
   published_at: string;
@@ -30,6 +32,7 @@ export const sectionLabels: Record<SectionSlug, string> = {
   'personal-essays': 'Personal Essays',
   'poetry-fiction': 'Poetry & Short Fiction',
   'guest-posts': 'Guest Posts',
+  'travel-diary': 'Travel Diary',
 };
 
 export function sectionLabel(section: SectionSlug): string {
