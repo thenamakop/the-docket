@@ -56,6 +56,13 @@ export default function AboutPage() {
           </p>
 
           <p>
+            The Travel Diary section is newer and looser: photographs, short
+            notes, and the occasional longer dispatch from a place that deserved
+            more attention than a passing mention. It is a way of keeping a
+            record of being somewhere without pretending to be a guide.
+          </p>
+
+          <p>
             The name, DaalBaatiChurma, is a nod to something made without
             shortcuts: slow heat, careful assembly, the kind of thing that
             cannot be hurried without changing what it is. That felt like the
