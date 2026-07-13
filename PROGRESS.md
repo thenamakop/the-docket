@@ -219,19 +219,21 @@ What was NOT changed:
 
 Status: complete (2026-07-13)
 
-Summary: Wired the subscribe form's API route to Buttondown's subscriber-creation endpoint. The stub `console.log` is replaced with a real `fetch` call; double opt-in is handled correctly in both the backend response and the frontend copy.
+Summary: Wired the subscribe form's API route to Buttondown's subscriber-creation endpoint. The stub `console.log` is replaced with a real `fetch` call; double opt-in is handled correctly in both the backend response and the frontend copy. A follow-up fix corrected IP forwarding and duplicate-email handling discovered during live-URL testing.
 
 Changes:
 
-- `src/app/api/subscribe/route.ts` — replaced the `// TODO` stub with a POST to `https://api.buttondown.com/v1/subscribers`. Any 2xx is treated as success (Buttondown returns 201 for both new and already-subscribed emails, so duplicate submissions are handled gracefully). 429 rate-limit responses return a "try again shortly" message. All other non-2xx responses are logged server-side and return a generic friendly error to the client — Buttondown's raw API error text is never surfaced to the user. `BUTTONDOWN_API_KEY` is read from `process.env` (server-only, no `NEXT_PUBLIC_` prefix, never in the client bundle).
-- `src/components/layout/footer.tsx` — success message updated from "Subscribed. Thank you!" to "You're on the list — check your inbox to confirm." (accurate for double opt-in). Success state now uses `text-brass`; error state keeps `text-oxblood` — visually distinct.
+- `src/app/api/subscribe/route.ts` — replaced the `// TODO` stub with a POST to `https://api.buttondown.com/v1/subscribers`. `BUTTONDOWN_API_KEY` is read from `process.env` (server-only, no `NEXT_PUBLIC_` prefix, never in the client bundle). 429 rate-limit responses return a "try again shortly" message. All other non-2xx responses are logged server-side and return a generic friendly error to the client.
+- Follow-up fix (same file): switched parameter from `Request` to `NextRequest` to read `x-forwarded-for`. The visitor's real IP is now passed as `ip_address` in the Buttondown payload so their firewall evaluates each subscriber's actual IP rather than Vercel's shared outbound IP. Also added handling for `email_already_exists` (400) — duplicate submissions now return success rather than a 502 error.
+- `src/components/layout/footer.tsx` — success message updated to "You're on the list — check your inbox to confirm." (accurate for double opt-in). Success uses `text-brass`; error keeps `text-oxblood`.
 - `.env.local` — `BUTTONDOWN_API_KEY` added (gitignored).
 - `.env.local.example` — `BUTTONDOWN_API_KEY` placeholder added with a comment.
-- `README.md` — `BUTTONDOWN_API_KEY` added to both the local setup code block and the Vercel environment variables table.
+- `README.md` — `BUTTONDOWN_API_KEY` added to the local setup block and the Vercel env vars table.
 
-Verification:
+Verification (live URL — daal-baati-churma.vercel.app):
 
-- Submitted a real email: appeared in Buttondown dashboard as "unactivated" (awaiting confirmation), confirmation email arrived, clicking it moved the subscriber to confirmed. ✅
-- Submitted the same email a second time: site showed normal success message, no error. ✅
-- Submitted an invalid email (no @): Zod validation caught it before any API call. ✅
-- `BUTTONDOWN_API_KEY` confirmed absent from all client-side bundle chunks (server-only route handler only). ✅
+- Invalid email (no @): Zod caught it before any API call, HTTP 400. ✅
+- Fresh email submitted via site: appeared in Buttondown dashboard as `unactivated` with correct Vercel edge IP (`76.76.21.21`). ✅
+- Duplicate email: `email_already_exists` handled as success, no error shown. ✅
+- `BUTTONDOWN_API_KEY` absent from all 16 client-side bundle chunks. ✅
+- Sentry client error notification received in dashboard (confirmed by site owner). ✅
