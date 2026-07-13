@@ -149,3 +149,22 @@ values
   now(),
   now()
 );
+
+-- Newsletter digest state — tracks the last time we successfully sent a digest.
+-- A single-row table (enforced by the check constraint on id = 1).
+-- The cron route reads last_notified_at to find new posts and writes it back
+-- on success. On failure, it is left unchanged so the next run retries.
+create table newsletter_state (
+  id                  int primary key default 1,
+  last_notified_at    timestamptz not null default now(),
+  constraint newsletter_state_singleton check (id = 1)
+);
+
+-- Service role bypasses RLS by default; we still lock down public access.
+alter table newsletter_state enable row level security;
+-- No public SELECT/INSERT/UPDATE policies — only the service role key may touch this table.
+
+-- Seed the single row; on conflict (re-running schema) do nothing.
+insert into newsletter_state (id, last_notified_at)
+  values (1, now())
+  on conflict (id) do nothing;

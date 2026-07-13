@@ -237,3 +237,26 @@ Verification (live URL — daal-baati-churma.vercel.app):
 - Duplicate email: `email_already_exists` handled as success, no error shown. ✅
 - `BUTTONDOWN_API_KEY` absent from all 16 client-side bundle chunks. ✅
 - Sentry client error notification received in dashboard (confirmed by site owner). ✅
+
+## Newsletter digest cron job
+
+Status: complete (2026-07-13)
+
+Summary: Replaced the missing RSS-to-email automation (a paid Buttondown add-on) with a free-tier Vercel Cron Job that calls Buttondown's core email API directly. No paid features used — only Buttondown's subscriber list and email-sending endpoint, both available on the free plan (confirmed by live API test returning HTTP 201 before building anything).
+
+Changes:
+
+- `supabase/schema.sql` — added `newsletter_state` table (singleton row, enforced by `check (id = 1)`). RLS enabled; only the service role key can access it. Tracks `last_notified_at` so missed runs catch up on the next attempt rather than skipping posts.
+- `src/app/api/cron/newsletter-digest/route.ts` — GET handler. Verifies `Authorization: Bearer <CRON_SECRET>` (returns 401 otherwise). Reads `last_notified_at`, queries posts newer than it, composes a single Markdown digest email, POSTs to `https://api.buttondown.com/v1/emails` with `status: "about_to_send"`. Advances `last_notified_at` to the most recent post's `published_at` on success only. On Buttondown failure, logs to Sentry and returns 502 without advancing state (so next run retries). On no new posts, returns 200 `{ sent: false }` without touching Buttondown.
+- `vercel.json` — created with `crons: [{ path: "/api/cron/newsletter-digest", schedule: "0 14 * * *" }]`.
+- `.env.local` — `SUPABASE_SERVICE_ROLE_KEY` and `CRON_SECRET` added (gitignored).
+- `.env.local.example` — both new keys added with placeholders and comments.
+- `README.md` — "Newsletter digest cron job" section added; both new env vars added to the Vercel table.
+
+Pre-requisite (manual step): Run the `newsletter_state` DDL in the Supabase SQL Editor before the first cron invocation. The exact SQL is in `supabase/schema.sql` under "Newsletter digest state" and is safe to re-run (`IF NOT EXISTS` + `ON CONFLICT DO NOTHING`).
+
+Verification (pending full live test — requires newsletter_state table to be created):
+
+- Unauthenticated request → 401. ✅ (local test)
+- `npm run build` passes cleanly. ✅
+- Buttondown free-plan send confirmed by live API test (HTTP 201 before code was written). ✅

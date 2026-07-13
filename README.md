@@ -273,6 +273,8 @@ Everything runs on free tiers unless you add a custom domain.
    | `SENTRY_ORG`                    | Your Sentry org slug                                                         |
    | `SENTRY_PROJECT`                | Your Sentry project slug                                                     |
    | `BUTTONDOWN_API_KEY`            | Buttondown → Settings → API keys (server-only, no NEXT_PUBLIC_ prefix)       |
+   | `SUPABASE_SERVICE_ROLE_KEY`     | Supabase → Project Settings → API → service_role (secret key, server-only)   |
+   | `CRON_SECRET`                   | A random 32-char hex string you generate; Vercel sends it as a Bearer token  |
 
 5. Vercel builds and deploys on every push to `main`.
 6. Optional: add a custom domain (the only paid item, roughly $10–15/year).
@@ -291,6 +293,25 @@ The live source of truth for build status is [`PROGRESS.md`](./PROGRESS.md). Thi
 - [x] Phase 5 — Section / archive pages + filter drawer
 - [x] Phase 6 — Search + dark mode polish
 - [x] Phase 7 — Newsletter, RSS, SEO, deploy, handoff (code complete)
+
+## Newsletter digest cron job
+
+`GET /api/cron/newsletter-digest` is invoked once daily at 14:00 UTC by Vercel's cron scheduler (configured in `vercel.json`). It:
+
+1. Reads `newsletter_state.last_notified_at` from Supabase (single-row table, bypasses RLS via service role key).
+2. Queries for posts where `status = 'published'` and `published_at > last_notified_at`, ordered oldest-first.
+3. If none found, returns 200 `{ sent: false, reason: "no_new_posts" }` — Buttondown is not called.
+4. If posts found, sends a single digest email to all confirmed subscribers via Buttondown's API.
+5. On success, advances `last_notified_at` to the most recent post's `published_at` — so a missed run catches up on the next attempt.
+6. On Buttondown failure, `last_notified_at` is **not** advanced (next run retries), and the error is reported to Sentry.
+
+The route rejects all requests without a valid `Authorization: Bearer <CRON_SECRET>` header (returns 401). To test locally, set `CRON_SECRET` in `.env.local` and call:
+
+```bash
+curl -H "Authorization: Bearer <your-CRON_SECRET>" http://localhost:3000/api/cron/newsletter-digest
+```
+
+Required environment variables: `BUTTONDOWN_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET` — all listed in the Vercel env vars table above.
 
 ## Publishing content
 
