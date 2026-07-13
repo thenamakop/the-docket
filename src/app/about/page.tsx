@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About — DaalBaatiChurma',
+  title: 'About | DaalBaatiChurma',
   description:
-    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023 — writing on history, philosophy, non-fiction books, and the occasional personal essay.',
+    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, and the occasional personal essay.',
 };
 
 export default function AboutPage() {
@@ -22,14 +22,14 @@ export default function AboutPage() {
           <p>
             Pradyumn Singh Mephawat is an advocate, a graduate of Jindal Global
             Law School (class of 2023). This site is where he reads, thinks, and
-            occasionally writes things down — not to perform expertise, but
+            occasionally writes things down. Not to perform expertise, but
             because some ideas only become clear once you have had to put words
             around them.
           </p>
 
           <p>
             His interests run toward history, philosophy, and non-fiction of the
-            kind that treats a serious subject seriously — books that argue
+            kind that treats a serious subject seriously: books that argue
             rather than merely inform, that have a point of view and defend it.
             The Book Reviews section exists because reading carefully is its own
             form of writing: to describe what a book does and whether it does it
@@ -39,7 +39,7 @@ export default function AboutPage() {
 
           <blockquote>
             <p>
-              He is also — slowly, honestly — trying to develop an interest in
+              He is also, slowly and honestly, trying to develop an interest in
               science. The trying is real; the interest is not yet automatic.
             </p>
           </blockquote>
@@ -57,7 +57,7 @@ export default function AboutPage() {
 
           <p>
             The name, DaalBaatiChurma, is a nod to something made without
-            shortcuts — slow heat, careful assembly, the kind of thing that
+            shortcuts: slow heat, careful assembly, the kind of thing that
             cannot be hurried without changing what it is. That felt like the
             right description for whatever this site is trying to be.
           </p>
