@@ -32,7 +32,7 @@ export function Footer() {
 
       if (res.ok && data.success) {
         setStatus('success');
-        setMessage("You're on the list — check your inbox to confirm.");
+        setMessage("You're subscribed. Thank you!");
         setEmail('');
       } else {
         setStatus('error');

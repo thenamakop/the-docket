@@ -35,12 +35,14 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         email_address: email,
+        // type: regular bypasses double opt-in — subscriber is confirmed immediately.
+        type: 'regular',
         ...(visitorIp ? { ip_address: visitorIp } : {}),
       }),
     });
 
     if (bdRes.ok) {
-      // 201 — new subscriber created (unactivated, awaiting confirmation).
+      // 201 — subscriber created and confirmed immediately (no confirmation email).
       return NextResponse.json({ success: true });
     }
 
@@ -49,8 +51,7 @@ export async function POST(request: NextRequest) {
       code?: string;
     };
 
-    // Duplicate submission — treat as success; the subscriber already exists
-    // and will get (or has already received) a confirmation email.
+    // Duplicate submission — already subscribed, treat as success.
     if (errBody.code === 'email_already_exists') {
       return NextResponse.json({ success: true });
     }
