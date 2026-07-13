@@ -8,6 +8,7 @@ import {
   sectionLabel,
 } from '@/lib/posts';
 import { DocketBadge } from '@/components/post/docket-badge';
+import { LocationBadge } from '@/components/post/location-badge';
 import { PostCard } from '@/components/post/post-card';
 import { ShareRow } from '@/components/post/share-row';
 
@@ -76,10 +77,13 @@ export default async function EssayPage({ params }: EssayPageProps) {
               <span className="font-ui text-xs font-semibold uppercase tracking-[0.08em] text-brass">
                 {sectionLabel(post.section)}
               </span>
-              <DocketBadge
-                docketNo={post.docket_no}
-                readingTimeMinutes={post.reading_time_minutes}
-              />
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <DocketBadge
+                  docketNo={post.docket_no}
+                  readingTimeMinutes={post.reading_time_minutes}
+                />
+                <LocationBadge location={post.location} />
+              </div>
             </div>
 
             <h1 className="font-display text-3xl font-medium leading-tight text-ink sm:text-4xl lg:text-5xl">

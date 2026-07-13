@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPostsBySection, sectionLabel, groupPostsByYear } from '@/lib/posts';
 import { PostCard } from '@/components/post/post-card';
+import { TravelDiaryCard } from '@/components/post/travel-diary-card';
 import type { SectionSlug } from '@/lib/post-data';
 import { sectionLabels } from '@/lib/post-data';
 
@@ -40,6 +41,10 @@ export default async function SectionPage({ params }: SectionPageProps) {
     .map(Number)
     .sort((a, b) => b - a);
 
+  const isTravelDiary = sectionSlug === 'travel-diary';
+  const entryWord = isTravelDiary ? 'entry' : 'essay';
+  const entriesWord = isTravelDiary ? 'entries' : 'essays';
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
       <div className="mb-10 border-b border-rule pb-4">
@@ -53,15 +58,23 @@ export default async function SectionPage({ params }: SectionPageProps) {
           {sectionLabel(sectionSlug)}
         </h1>
         <p className="mt-1 font-body text-base text-slate">
-          {posts.length} {posts.length === 1 ? 'essay' : 'essays'}
+          {posts.length} {posts.length === 1 ? entryWord : entriesWord}
         </p>
       </div>
 
       {posts.length === 0 ? (
         <p className="font-body text-base text-slate">
-          No published essays in this section yet.
+          No published {entriesWord} in this section yet.
         </p>
+      ) : isTravelDiary ? (
+        /* Travel Diary: flat photo grid, newest first, no year grouping */
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <TravelDiaryCard key={post.id} post={post} />
+          ))}
+        </div>
       ) : (
+        /* All other sections: existing year-grouped list layout unchanged */
         <div className="space-y-16">
           {years.map((year) => (
             <div key={year}>
