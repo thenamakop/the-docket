@@ -32,6 +32,11 @@ export async function POST(request: NextRequest) {
       headers: {
         Authorization: `Token ${process.env.BUTTONDOWN_API_KEY}`,
         'Content-Type': 'application/json',
+        // Bypass Buttondown's firewall for requests originating from Vercel's
+        // shared outbound IP. Rate-limited to 5/hour — sufficient for a
+        // low-traffic personal site. The visitor's real IP is still passed in
+        // the body below so Buttondown can evaluate it for spam signals.
+        'X-Buttondown-Bypass-Firewall': 'true',
       },
       body: JSON.stringify({
         email_address: email,
