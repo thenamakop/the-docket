@@ -255,8 +255,14 @@ Changes:
 
 Pre-requisite (manual step): Run the `newsletter_state` DDL in the Supabase SQL Editor before the first cron invocation. The exact SQL is in `supabase/schema.sql` under "Newsletter digest state" and is safe to re-run (`IF NOT EXISTS` + `ON CONFLICT DO NOTHING`).
 
-Verification (pending full live test — requires newsletter_state table to be created):
+Verification (live URL — daal-baati-churma.vercel.app):
 
-- Unauthenticated request → 401. ✅ (local test)
+- Unauthenticated request → 401. ✅
+- Wrong `CRON_SECRET` → 401. ✅
+- No new posts → HTTP 200 `{ sent: false, reason: "no_new_posts" }`, Buttondown untouched. ✅
+- Test post inserted with `published_at` after `last_notified_at`: cron found it, sent digest, returned `{ sent: true, postCount: 1 }`. Email appeared as `status: sent` in Buttondown dashboard (`em_0fqb8ws61q8cdt3vcm4687ebrx`). ✅
+- `last_notified_at` advanced to the post's `published_at` (not `now()`). ✅
+- Second cron run immediately after → `{ sent: false, reason: "no_new_posts" }`. No duplicate email. ✅
+- Bad Buttondown API key → HTTP 401 from Buttondown; route returns 502; `last_notified_at` confirmed unchanged (failure-path does not call the state update). ✅
+- Both test posts deleted; `last_notified_at` rewound to pre-test baseline. ✅
 - `npm run build` passes cleanly. ✅
-- Buttondown free-plan send confirmed by live API test (HTTP 201 before code was written). ✅
