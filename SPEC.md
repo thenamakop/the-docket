@@ -412,7 +412,7 @@ Steps:
    font-body, font-ui, font-mono). Never hardcode hex values in
    components.
 3. Build src/components/layout/header.tsx: masthead (font-display), nav
-   links (Essays / Book Reviews / Personal / Poetry — font-ui, small
+   links (Essays / Book Reviews / Personal / Travel Diary — font-ui, small
    caps), a search icon button (no-op for now — wired in Phase 6), and a
    functional dark mode toggle. Sticky on scroll with a border-rule
    bottom border that appears only after scrolling past 0.

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About | DaalBaatiChurma',
   description:
-    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, and the occasional personal essay.',
+    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, travel diaries, and the occasional personal essay.',
 };
 
 export default function AboutPage() {

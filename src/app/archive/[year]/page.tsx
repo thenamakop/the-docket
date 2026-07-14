@@ -19,7 +19,7 @@ export async function generateMetadata({
   const { year } = await params;
   return {
     title: `${year} — DaalBaatiChurma`,
-    description: `Essays and reviews published in ${year}.`,
+    description: `Essays, reviews, and travel diaries published in ${year}.`,
   };
 }
 

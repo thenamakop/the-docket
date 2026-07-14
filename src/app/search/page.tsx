@@ -12,7 +12,7 @@ interface SearchPageProps {
 export const metadata: Metadata = {
   title: 'Search — DaalBaatiChurma',
   description:
-    'Search essays and reviews from DaalBaatiChurma by title, description, or body text.',
+    'Search essays, reviews, and travel diaries from DaalBaatiChurma by title, description, or body text.',
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
@@ -44,9 +44,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             type="search"
             name="q"
             defaultValue={query}
-            placeholder="Search by title, description, or body text"
+            placeholder="Search essays, reviews, and travel diaries"
             className="pl-10"
-            aria-label="Search essays"
+            aria-label="Search essays, reviews, and travel diaries"
           />
         </div>
       </form>

@@ -45,7 +45,7 @@ export default async function AdminPage() {
         <div>
           <h1 className="font-display text-3xl font-medium text-ink">Posts</h1>
           <p className="mt-1 font-body text-base text-slate">
-            Manage essays and reviews.
+            Manage essays, reviews, and travel diaries.
           </p>
         </div>
 
