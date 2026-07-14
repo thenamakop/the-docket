@@ -45,14 +45,14 @@ async function rpc(fnName, args = {}) {
   return { ok: res.ok, status: res.status, body: await res.text() };
 }
 
-async function post(path, body) {
-  const res = await fetch(`${supabaseUrl}${path}`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body),
-  });
-  return { ok: res.ok, status: res.status, body: await res.text() };
-}
+// async function post(path, body) {
+//   const res = await fetch(`${supabaseUrl}${path}`, {
+//     method: 'POST',
+//     headers,
+//     body: JSON.stringify(body),
+//   });
+//   return { ok: res.ok, status: res.status, body: await res.text() };
+// }
 
 // ── Step 1: create the migration helper function ────────────────────────────
 // We use CREATE OR REPLACE so re-runs don't fail.
@@ -60,31 +60,31 @@ async function post(path, body) {
 // (which for service role has DDL rights).
 console.log('\n[1/4] Creating migration helper function...');
 
-const createFnSql = `
-create or replace function run_travel_diary_migration()
-returns text
-language plpgsql
-security definer
-set search_path = public
-as $$
-begin
-  -- Drop old section constraint
-  alter table posts drop constraint if exists posts_section_check;
-
-  -- Recreate with travel-diary added
-  alter table posts add constraint posts_section_check
-    check (section in (
-      'law-justice','criminal-justice','book-reviews',
-      'personal-essays','poetry-fiction','guest-posts','travel-diary'
-    ));
-
-  -- Add location column (idempotent)
-  alter table posts add column if not exists location text;
-
-  return 'migration complete';
-end;
-$$;
-`;
+// const createFnSql = `
+// create or replace function run_travel_diary_migration()
+// returns text
+// language plpgsql
+// security definer
+// set search_path = public
+// as $$
+// begin
+//   -- Drop old section constraint
+//   alter table posts drop constraint if exists posts_section_check;
+//
+//   -- Recreate with travel-diary added
+//   alter table posts add constraint posts_section_check
+//     check (section in (
+//       'law-justice','criminal-justice','book-reviews',
+//       'personal-essays','poetry-fiction','guest-posts','travel-diary'
+//     ));
+//
+//   -- Add location column (idempotent)
+//   alter table posts add column if not exists location text;
+//
+//   return 'migration complete';
+// end;
+// $$;
+// `;
 
 // We need to create this function first — the only way to do DDL via PostgREST
 // is through a SECURITY DEFINER function. To create the function itself, we
@@ -92,7 +92,7 @@ $$;
 // internal /pg endpoint if available, or fall back to instructions.
 
 // Try the Supabase internal SQL endpoint (works in some versions)
-const sqlEndpoints = [`${supabaseUrl}/pg/query`, `${supabaseUrl}/rest/v1/`];
+// const sqlEndpoints = [`${supabaseUrl}/pg/query`, `${supabaseUrl}/rest/v1/`];
 
 // Actually the cleanest path: use the service role key to POST to the
 // Supabase /rest/v1/rpc endpoint to create a function...
@@ -108,7 +108,7 @@ const sqlEndpoints = [`${supabaseUrl}/pg/query`, `${supabaseUrl}/rest/v1/`];
 console.log('[1/4] Checking for existing SQL execution RPC...');
 
 for (const fnName of ['query', 'sql', 'execute_sql', 'run_sql']) {
-  const { status, body } = await rpc(fnName, { query: 'select 1' });
+  const { status } = await rpc(fnName, { query: 'select 1' });
   if (status !== 404) {
     console.log(`  Found: ${fnName} (status ${status})`);
   }
