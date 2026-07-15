@@ -47,7 +47,7 @@ export async function GET() {
   <channel>
     <title>DaalBaatiChurma</title>
     <link>${SITE_URL}</link>
-    <description>A personal editorial blog for essays, book reviews, and travel diaries by Pradyumn Singh Mephawat.</description>
+    <description>A personal editorial blog for book reviews and travel diaries by Pradyumn Singh Mephawat.</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     ${items}

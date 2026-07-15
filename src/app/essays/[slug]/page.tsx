@@ -129,13 +129,13 @@ export default async function EssayPage({ params }: EssayPageProps) {
 
           {/* Share row */}
           <div className="mt-12 flex items-center justify-between border-t border-rule pt-6">
-            <span className="font-ui text-sm text-slate">Share this essay</span>
+            <span className="font-ui text-sm text-slate">Share this post</span>
             <ShareRow url={canonicalUrl} title={post.title} />
           </div>
         </div>
       </div>
 
-      {/* Related essays */}
+      {/* Related posts */}
       {related.length > 0 && (
         <aside className="border-t border-rule bg-parchment-dim">
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">

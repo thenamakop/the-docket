@@ -19,7 +19,7 @@ export async function generateMetadata({
   const { year } = await params;
   return {
     title: `${year} — DaalBaatiChurma`,
-    description: `Essays, reviews, and travel diaries published in ${year}.`,
+    description: `Reviews and travel diaries published in ${year}.`,
   };
 }
 
@@ -42,19 +42,19 @@ export default async function ArchiveYearPage({
           href="/"
           className="font-ui text-sm text-slate transition-colors hover:text-oxblood"
         >
-          ← Back to all essays
+          ← Back to all posts
         </Link>
         <h1 className="mt-4 font-display text-3xl font-medium text-ink sm:text-4xl">
           {year}
         </h1>
         <p className="mt-1 font-body text-base text-slate">
-          {posts.length} {posts.length === 1 ? 'essay' : 'essays'}
+          {posts.length} {posts.length === 1 ? 'post' : 'posts'}
         </p>
       </div>
 
       {posts.length === 0 ? (
         <p className="font-body text-base text-slate">
-          No published essays from this year.
+          No published posts from this year.
         </p>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

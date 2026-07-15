@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About | DaalBaatiChurma',
   description:
-    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, travel diaries, and the occasional personal essay.',
+    'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, and travel diaries.',
 };
 
 export default function AboutPage() {
@@ -43,17 +43,6 @@ export default function AboutPage() {
               science. The trying is real; the interest is not yet automatic.
             </p>
           </blockquote>
-
-          <p>
-            The Personal Essays section is harder to describe. It is the record
-            of someone who trained in law but finds himself drawn to the
-            questions that law reaches for and rarely quite answers: what
-            obligations do we carry toward people we will never meet, what makes
-            a judgment more than an outcome, why some arguments feel true even
-            before they can be proved. These are not legal questions, strictly
-            speaking. They are the questions that law inherits from history and
-            philosophy and has not yet returned.
-          </p>
 
           <p>
             The Travel Diary section is newer and looser: photographs, short

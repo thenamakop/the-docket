@@ -99,24 +99,24 @@ export function CommandPalette({
     <CommandDialog
       open={open}
       onOpenChange={setOpen}
-      title="Search essays"
+      title="Search posts"
       description="Search by title, description, or body text"
     >
       <Command shouldFilter={false}>
         <CommandInput
-          placeholder="Search essays..."
+          placeholder="Search posts..."
           value={query}
           onValueChange={handleQueryChange}
         />
         <CommandList>
           {query.trim() && !loading && results.length === 0 && (
-            <CommandEmpty>No essays found.</CommandEmpty>
+            <CommandEmpty>No posts found.</CommandEmpty>
           )}
           {!query.trim() && (
-            <CommandEmpty>Start typing to search essays.</CommandEmpty>
+            <CommandEmpty>Start typing to search posts.</CommandEmpty>
           )}
           {results.length > 0 && (
-            <CommandGroup heading="Essays">
+            <CommandGroup heading="Posts">
               {results.map((post) => (
                 <CommandItem
                   key={post.id}

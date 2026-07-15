@@ -81,8 +81,8 @@ export function PostForm({ post }: PostFormProps) {
         </h1>
         <p className="font-body text-base text-slate">
           {post
-            ? 'Update your essay, book review, or travel diary entry.'
-            : 'Write a new essay, book review, or travel diary entry.'}
+            ? 'Update your book review or travel diary entry.'
+            : 'Write a new book review or travel diary entry.'}
         </p>
       </div>
 

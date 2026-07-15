@@ -1,5 +1,18 @@
 # Build Progress Log
 
+## Update — 2026-07-15: Retire Personal Essays from public navigation and copy
+
+Status: complete
+
+Summary: Site owner requested removal of the Personal Essays tab from the public navigation and scrubbing of "essays" / "personal note" language from the About page and footer. Removed `Personal Essays` from `src/components/layout/header.tsx` top nav and from `src/components/layout/filter-drawer.tsx` active sections. Removed the Personal Essays paragraph from `src/app/about/page.tsx`. Updated the About metadata, footer About blurb, and footer subscribe copy. Also replaced remaining user-facing "essay"/"essays" copy across the site with generic "post"/"posts" or section-specific language: homepage hero CTA and Volume Index subtitle, search page metadata/placeholder/results copy, archive page counts and empty state, section page counts, command palette labels, essay detail page "Share this essay" and "Related essays", and admin post-form helper text. Route URLs (`/essays/[slug]`) and data-model types/labels were intentionally left unchanged so existing links and legacy content keep working.
+
+Deviations from prior pattern: None.
+
+Decisions not fully specified:
+
+- Left `personal-essays` in the admin form's `activeSectionSlugs` and in `src/lib/post-data.ts` so existing Personal Essays posts can still be edited and their labels still render correctly.
+- Did not rename the `/essays/` URL path; doing so would break existing indexed links, share URLs, and RSS items.
+
 ## Bug Fix — 2026-07-15: Cookie-free public Supabase client for new post generation
 
 Status: complete

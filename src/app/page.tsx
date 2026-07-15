@@ -13,7 +13,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'DaalBaatiChurma',
   description:
-    'A personal editorial blog for essays and book reviews by Pradyumn Singh Mephawat.',
+    'A personal editorial blog for book reviews and travel diaries by Pradyumn Singh Mephawat.',
 };
 
 export const revalidate = 60;
@@ -79,7 +79,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   href={`/essays/${heroPost.slug}`}
                   className="inline-flex items-center justify-center rounded-lg bg-oxblood px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-oxblood/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
                 >
-                  Read this essay
+                  Read this post
                 </Link>
               </div>
 
@@ -108,8 +108,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 New writing is on its way.
               </p>
               <p className="mt-4 font-body text-base leading-relaxed text-slate">
-                Check back soon — essays and book reviews are being prepared
-                slowly and with care.
+                Check back soon — book reviews and travel diaries are being
+                prepared slowly and with care.
               </p>
             </div>
           )}
@@ -123,7 +123,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             Volume Index
           </h2>
           <p className="mt-1 font-body text-base text-slate">
-            Essays and reviews arranged by year.
+            Reviews and travel diaries arranged by year.
           </p>
         </div>
 

@@ -7,11 +7,7 @@ import type { SectionSlug } from '@/lib/post-data';
 import { sectionLabels } from '@/lib/post-data';
 
 // Active sections shown in the drawer — new content is published to these.
-const activeSections: SectionSlug[] = [
-  'book-reviews',
-  'personal-essays',
-  'travel-diary',
-];
+const activeSections: SectionSlug[] = ['book-reviews', 'travel-diary'];
 
 interface FilterDrawerProps {
   sectionCounts: Record<SectionSlug, number>;
@@ -76,7 +72,7 @@ export function FilterDrawer({
             <ul className="space-y-1 pl-3">
               {archiveYears.length === 0 ? (
                 <li className="px-3 py-2 font-ui text-sm text-slate">
-                  No published essays yet.
+                  No published posts yet.
                 </li>
               ) : (
                 archiveYears.map((year) => (
@@ -100,7 +96,7 @@ export function FilterDrawer({
           href="/"
           className="block rounded-lg px-3 py-3 font-ui text-sm font-medium text-slate transition-colors hover:bg-parchment-dim hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
         >
-          Back to all essays
+          Back to all posts
         </Link>
       </div>
     </div>

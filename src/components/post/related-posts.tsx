@@ -1,1 +1,1 @@
-// Related essays block at the bottom of a post.
+// Related posts block at the bottom of a post.

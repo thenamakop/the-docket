@@ -42,8 +42,8 @@ export default async function SectionPage({ params }: SectionPageProps) {
     .sort((a, b) => b - a);
 
   const isTravelDiary = sectionSlug === 'travel-diary';
-  const entryWord = isTravelDiary ? 'entry' : 'essay';
-  const entriesWord = isTravelDiary ? 'entries' : 'essays';
+  const entryWord = 'post';
+  const entriesWord = 'posts';
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -52,7 +52,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
           href="/"
           className="font-ui text-sm text-slate transition-colors hover:text-oxblood"
         >
-          ← Back to all essays
+          ← Back to all posts
         </Link>
         <h1 className="mt-4 font-display text-3xl font-medium text-ink sm:text-4xl">
           {sectionLabel(sectionSlug)}

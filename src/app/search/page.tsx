@@ -12,7 +12,7 @@ interface SearchPageProps {
 export const metadata: Metadata = {
   title: 'Search — DaalBaatiChurma',
   description:
-    'Search essays, reviews, and travel diaries from DaalBaatiChurma by title, description, or body text.',
+    'Search reviews and travel diaries from DaalBaatiChurma by title, description, or body text.',
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
@@ -27,7 +27,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           href="/"
           className="font-ui text-sm text-slate transition-colors hover:text-oxblood"
         >
-          ← Back to all essays
+          ← Back to all posts
         </Link>
         <h1 className="mt-4 font-display text-3xl font-medium text-ink sm:text-4xl">
           Search
@@ -44,22 +44,22 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             type="search"
             name="q"
             defaultValue={query}
-            placeholder="Search essays, reviews, and travel diaries"
+            placeholder="Search reviews and travel diaries"
             className="pl-10"
-            aria-label="Search essays, reviews, and travel diaries"
+            aria-label="Search reviews and travel diaries"
           />
         </div>
       </form>
 
       {query && results.length === 0 && (
         <p className="font-body text-base text-slate">
-          No essays found for &ldquo;{query}&rdquo;.
+          No posts found for &ldquo;{query}&rdquo;.
         </p>
       )}
 
       {!query && (
         <p className="font-body text-base text-slate">
-          Enter a word or phrase above to search published essays.
+          Enter a word or phrase above to search published posts.
         </p>
       )}
 
