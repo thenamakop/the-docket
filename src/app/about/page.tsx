@@ -46,9 +46,10 @@ export default function AboutPage() {
 
           <p>
             The Travel Diary section is newer and looser: photographs, short
-            notes, and the occasional longer dispatch from a place that deserved
-            more attention than a passing mention. It is a way of keeping a
-            record of being somewhere without pretending to be a guide.
+            observations, and the occasional longer dispatch from a place that
+            deserved more attention than a passing mention. It is a way of
+            keeping a record of being somewhere without pretending to be a
+            guide.
           </p>
 
           <p>

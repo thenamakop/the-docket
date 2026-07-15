@@ -12,6 +12,7 @@ Decisions not fully specified:
 
 - Left `personal-essays` in the admin form's `activeSectionSlugs` and in `src/lib/post-data.ts` so existing Personal Essays posts can still be edited and their labels still render correctly.
 - Did not rename the `/essays/` URL path; doing so would break existing indexed links, share URLs, and RSS items.
+- Follow-up edit: removed the lingering "and the occasional written note" clause from the footer About blurb and changed "short notes" to "short observations" in the About page Travel Diary paragraph to keep copy aligned with the two active sections.
 
 ## Bug Fix — 2026-07-15: Cookie-free public Supabase client for new post generation
 
