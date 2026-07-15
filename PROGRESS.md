@@ -1,5 +1,20 @@
 # Build Progress Log
 
+## Bug Fix — 2026-07-15: Cookie-free public Supabase client for new post generation
+
+Status: complete
+
+Summary: Fixed a production-only `DYNAMIC_SERVER_USAGE` crash that prevented brand-new posts from rendering on their first visit to `/essays/[slug]`. Root cause: `getPublishedPosts`, `getPostBySlug`, `getPostsBySection`, `getPostsByYear`, and `getRelatedPosts` in `src/lib/posts.ts` were calling `getSupabase()` → the cookie-based `@supabase/ssr` client in `src/lib/supabase/server.ts`, which internally calls `cookies()` from `next/headers`. Because `cookies()` is a Next.js dynamic function, any route calling these helpers was forced out of static generation. Existing slugs worked fine because they were pre-rendered by `generateStaticParams()` and served from cache; new slugs published after the last deploy hit the on-demand generation path and crashed.
+
+Fix: Created `src/lib/supabase/public.ts` exporting a cookie-free `createPublicClient()` built directly from `@supabase/supabase-js`, using `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Its `global.fetch` override injects `next: { revalidate: 60 }` into every request, matching the ISR caching already used by `getSectionCounts` and `getPublishedYears`. Updated the five public read helpers in `src/lib/posts.ts` to use `createPublicClient()` while leaving the admin-only `getPostById` and `getAllPosts` on the cookie-based `getSupabase()` client. Verified that `getSupabase()` now only appears in `getPostById` and `getAllPosts`.
+
+Deviations from prior pattern: None.
+
+Decisions not fully specified:
+
+- Kept the existing manual `fetch()` + `next: { revalidate: 60 }` pattern for `getSectionCounts`, `getPublishedYears`, `searchPosts`, and `getPublishedSlugs` instead of migrating them to the new client, since they were already cookie-free and working correctly. This minimizes the diff.
+- `@supabase/supabase-js` was already a direct dependency, so no package changes were needed.
+
 ## Phase 0 — Repo bootstrap
 
 Status: complete

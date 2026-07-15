@@ -1,4 +1,5 @@
 import { createClient as createServerClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import type { Post, SectionSlug } from '@/lib/post-data';
 import { sectionLabels } from '@/lib/post-data';
 
@@ -117,7 +118,7 @@ export async function getPublishedPosts(
   limit = 20,
   offset = 0
 ): Promise<Post[]> {
-  const supabase = await getSupabase();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('posts')
     .select('*')
@@ -163,7 +164,7 @@ export async function getPublishedSlugs(): Promise<{ slug: string }[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const supabase = await getSupabase();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('posts')
     .select('*')
@@ -215,7 +216,7 @@ export async function getPostsBySection(
   limit = 20,
   offset = 0
 ): Promise<Post[]> {
-  const supabase = await getSupabase();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('posts')
     .select('*')
@@ -239,7 +240,7 @@ export async function getPostsByYear(
 ): Promise<Post[]> {
   const start = `${year}-01-01T00:00:00.000Z`;
   const end = `${year + 1}-01-01T00:00:00.000Z`;
-  const supabase = await getSupabase();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('posts')
     .select('*')
@@ -262,7 +263,7 @@ export async function getRelatedPosts(
   section: SectionSlug,
   limit = 3
 ): Promise<Post[]> {
-  const supabase = await getSupabase();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('posts')
     .select('*')
