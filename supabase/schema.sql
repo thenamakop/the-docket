@@ -11,6 +11,7 @@ create table posts (
   dek                   text,                        -- short excerpt; auto-derived from body if left blank
   body_html             text not null,                -- sanitized HTML from the rich text editor
   cover_image_url       text,
+  cover_image_position  text default 'center' check (cover_image_position in ('top','center','bottom')),
   location              text,                        -- optional free-form location (e.g. "Udaipur, Rajasthan")
   author                text not null default 'Pradyumn Singh Mephawat',
   status                text not null default 'draft' check (status in ('draft','published')),

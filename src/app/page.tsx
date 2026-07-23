@@ -86,7 +86,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <div className="order-1 lg:order-2">
                 {heroPost.cover_image_url ? (
                   <div
-                    className="aspect-[4/3] w-full bg-cover bg-center"
+                    className="aspect-[4/3] w-full bg-parchment-dim bg-center bg-contain bg-no-repeat"
                     style={{
                       backgroundImage: `url(${heroPost.cover_image_url})`,
                     }}

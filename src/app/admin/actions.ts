@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import sanitizeHtml from 'sanitize-html';
 import { createClient } from '@/lib/supabase/server';
-import type { Post, SectionSlug } from '@/lib/post-data';
+import type { CoverImagePosition, Post, SectionSlug } from '@/lib/post-data';
 
 export interface PostFormData {
   title: string;
@@ -12,6 +12,7 @@ export interface PostFormData {
   location: string | null;
   bodyHtml: string;
   coverImageUrl: string | null;
+  coverImagePosition: CoverImagePosition;
   intent: 'draft' | 'publish';
 }
 
@@ -126,6 +127,7 @@ export async function createPost(formData: PostFormData) {
   const publishedAt =
     formData.intent === 'publish' ? new Date().toISOString() : null;
   const coverImageUrl = formData.coverImageUrl?.trim() || null;
+  const coverImagePosition = coverImageUrl ? formData.coverImagePosition : null;
   const location = formData.location?.trim() || null;
   const section = formData.section;
 
@@ -137,6 +139,7 @@ export async function createPost(formData: PostFormData) {
     dek: null,
     body_html: bodyHtml,
     cover_image_url: coverImageUrl,
+    cover_image_position: coverImagePosition,
     location,
     author: 'Pradyumn Singh Mephawat',
     status,
@@ -186,6 +189,7 @@ export async function updatePost(id: string, formData: PostFormData) {
       ? ((existing as Post).published_at ?? new Date().toISOString())
       : null;
   const coverImageUrl = formData.coverImageUrl?.trim() || null;
+  const coverImagePosition = coverImageUrl ? formData.coverImagePosition : null;
   const location = formData.location?.trim() || null;
 
   const { error } = await supabase
@@ -196,6 +200,7 @@ export async function updatePost(id: string, formData: PostFormData) {
       section: formData.section,
       body_html: bodyHtml,
       cover_image_url: coverImageUrl,
+      cover_image_position: coverImagePosition,
       location,
       status,
       published_at: publishedAt,

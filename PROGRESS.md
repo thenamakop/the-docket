@@ -1,5 +1,13 @@
 # Build Progress Log
 
+## Bug Fix — 2026-07-24: Preserve cover images and add thumbnail position control
+
+Status: complete
+
+Summary: Fixed cover images being clipped in the homepage hero and post-detail cover area. Both views now retain their existing layout dimensions but render images with `background-size: contain` on the theme-aware `bg-parchment-dim` matte, so portrait, square, and landscape source images remain fully visible in light and dark mode. Added the nullable `cover_image_position` field (`top`, `center`, or `bottom`, default `center`) to the schema and a non-destructive migration at `supabase/migrations/20260724_add_cover_image_position.sql`; the migration was applied successfully in Supabase SQL Editor. The public `Post` type and admin create/update actions persist the value. The ImageUploader now presents a 3:2 live cropped thumbnail preview and a Top / Center / Bottom selector after an image is uploaded. `TravelDiaryCard`, the only existing cover-image thumbnail component, applies the selected position while preserving its uniform 3:2 crop; null legacy values default to center. The regular Volume Index `PostCard` does not render cover images, so it did not require a position change.
+
+Verification: `npm run lint` and `npm run build` pass. A production-mode local server confirmed both the homepage hero and the reported The Way Home post detail cover now use `background-size: contain` and the themed matte. The build's two `getPostBySlug` notices came from Next's synthetic `/-/opengraph-image` generation request rather than an image rendering failure.
+
 ## Update — 2026-07-15: Retire Personal Essays from public navigation and copy
 
 Status: complete

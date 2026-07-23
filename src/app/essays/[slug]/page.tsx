@@ -111,7 +111,7 @@ export default async function EssayPage({ params }: EssayPageProps) {
       {post.cover_image_url && (
         <div className="mx-auto max-w-5xl px-4 pt-12 sm:px-6 lg:px-8 lg:pt-16">
           <div
-            className="aspect-[16/9] w-full bg-cover bg-center"
+            className="aspect-[16/9] w-full bg-parchment-dim bg-center bg-contain bg-no-repeat"
             style={{ backgroundImage: `url(${post.cover_image_url})` }}
             role="img"
             aria-label={`Cover image for ${post.title}`}

@@ -1,3 +1,5 @@
+export type CoverImagePosition = 'top' | 'center' | 'bottom';
+
 export type SectionSlug =
   | 'law-justice'
   | 'criminal-justice'
@@ -16,6 +18,7 @@ export interface Post {
   dek: string | null;
   body_html: string;
   cover_image_url: string | null;
+  cover_image_position: CoverImagePosition | null;
   location: string | null;
   author: string;
   status: 'draft' | 'published';

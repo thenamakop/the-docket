@@ -3,7 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPost, updatePost, type PostFormData } from '@/app/admin/actions';
-import { sectionLabels, type Post, type SectionSlug } from '@/lib/post-data';
+import {
+  sectionLabels,
+  type CoverImagePosition,
+  type Post,
+  type SectionSlug,
+} from '@/lib/post-data';
 
 // Active sections offered in the form for new content.
 // Retired slugs remain valid at the data-model level but are not offered here.
@@ -39,6 +44,8 @@ export function PostForm({ post }: PostFormProps) {
   const [coverImageUrl, setCoverImageUrl] = useState<string | null>(
     post?.cover_image_url ?? null
   );
+  const [coverImagePosition, setCoverImagePosition] =
+    useState<CoverImagePosition>(post?.cover_image_position ?? 'center');
   const [error, setError] = useState('');
   const [pending, setPending] = useState(false);
 
@@ -56,6 +63,7 @@ export function PostForm({ post }: PostFormProps) {
       location: location.trim() || null,
       bodyHtml,
       coverImageUrl,
+      coverImagePosition,
       intent,
     };
 
@@ -114,7 +122,12 @@ export function PostForm({ post }: PostFormProps) {
           <span className="font-ui text-sm font-medium text-ink">
             Cover photo
           </span>
-          <ImageUploader value={coverImageUrl} onChange={setCoverImageUrl} />
+          <ImageUploader
+            value={coverImageUrl}
+            onChange={setCoverImageUrl}
+            position={coverImagePosition}
+            onPositionChange={setCoverImagePosition}
+          />
         </div>
 
         <div className="space-y-2">

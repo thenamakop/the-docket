@@ -7,6 +7,12 @@ interface TravelDiaryCardProps {
   post: Post;
 }
 
+const imagePositions = {
+  top: 'center top',
+  center: 'center',
+  bottom: 'center bottom',
+};
+
 /**
  * Photo-forward card used exclusively on the Travel Diary section index.
  * Cover image leads at a consistent 3:2 aspect ratio; falls back to a
@@ -25,7 +31,11 @@ export function TravelDiaryCard({ post }: TravelDiaryCardProps) {
           {post.cover_image_url ? (
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.03]"
-              style={{ backgroundImage: `url(${post.cover_image_url})` }}
+              style={{
+                backgroundImage: `url(${post.cover_image_url})`,
+                backgroundPosition:
+                  imagePositions[post.cover_image_position ?? 'center'],
+              }}
               role="img"
               aria-label={`Cover image for ${post.title}`}
             />
@@ -45,7 +55,12 @@ export function TravelDiaryCard({ post }: TravelDiaryCardProps) {
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <LocationBadge location={post.location} />
             {post.location && (
-              <span className="text-slate/40 font-mono text-xs" aria-hidden="true">·</span>
+              <span
+                className="text-slate/40 font-mono text-xs"
+                aria-hidden="true"
+              >
+                ·
+              </span>
             )}
             <time
               dateTime={post.published_at}
