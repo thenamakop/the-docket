@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     'A personal editorial blog for book reviews and travel diaries by Pradyumn Singh Mephawat.',
   metadataBase: new URL(SITE_URL),
   verification: {
-    google: 'rlF7RpDWFDIgyUppf8kmnYlqyDlptkjphTgVuXoiw4I',
+    google: '1zvNxNgki9RWTR8bSANP8-6uLNp5GZxFuI5jHe4DqpU',
   },
   alternates: {
     canonical: '/',
