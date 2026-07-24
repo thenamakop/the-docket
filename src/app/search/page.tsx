@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Search — DaalBaatiChurma',
   description:
     'Search reviews and travel diaries from DaalBaatiChurma by title, description, or body text.',
+  alternates: {
+    canonical: '/search',
+  },
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

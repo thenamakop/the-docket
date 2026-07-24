@@ -49,6 +49,7 @@ export const metadata: Metadata = {
     'A personal editorial blog for book reviews and travel diaries by Pradyumn Singh Mephawat.',
   metadataBase: new URL(SITE_URL),
   alternates: {
+    canonical: '/',
     types: {
       'application/rss+xml': '/rss.xml',
     },

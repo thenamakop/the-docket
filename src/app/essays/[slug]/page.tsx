@@ -16,6 +16,15 @@ interface EssayPageProps {
   params: Promise<{ slug: string }>;
 }
 
+function getPostDescription(post: { dek: string | null; body_html: string }) {
+  const text = (post.dek ?? post.body_html)
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return text.length > 160 ? `${text.slice(0, 157)}...` : text;
+}
+
 export async function generateStaticParams() {
   const slugs = await getPublishedSlugs();
   return slugs.map(({ slug }) => ({ slug }));
@@ -33,15 +42,17 @@ export async function generateMetadata({
     };
   }
 
+  const description = getPostDescription(post);
+
   return {
     title: `${post.title} — DaalBaatiChurma`,
-    description: post.dek ?? undefined,
+    description,
     alternates: {
       canonical: `/essays/${post.slug}`,
     },
     openGraph: {
       title: `${post.title} — DaalBaatiChurma`,
-      description: post.dek?.replace(/<[^>]+>/g, '') ?? undefined,
+      description,
       url: `/essays/${post.slug}`,
       type: 'article',
       publishedTime: post.published_at,
@@ -66,9 +77,27 @@ export default async function EssayPage({ params }: EssayPageProps) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://daalbaatichurma.vercel.app';
   const canonicalUrl = `${siteUrl}/essays/${post.slug}`;
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.published_at,
+    dateModified: post.updated_at,
+    author: {
+      '@type': 'Person',
+      name: post.author,
+    },
+    ...(post.cover_image_url ? { image: post.cover_image_url } : {}),
+  };
 
   return (
     <article className="flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
       {/* Header */}
       <header className="border-b border-rule bg-parchment-dim">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">

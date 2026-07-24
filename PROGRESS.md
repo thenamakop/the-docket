@@ -1,5 +1,13 @@
 # Build Progress Log
 
+## SEO Foundation — 2026-07-24: Robots, canonical URLs, and Article structured data
+
+Status: complete
+
+Summary: Added `src/app/robots.ts` using Next.js `MetadataRoute.Robots`. It allows public crawling, disallows `/admin/` and `/api/`, and points crawlers to the environment-driven production sitemap. Audited `src/app/sitemap.ts`: it already uses `NEXT_PUBLIC_SITE_URL` with the production-domain fallback and includes home, About, search, published posts, public section routes, and archive years; admin and API routes are excluded. Added root canonical metadata plus explicit canonical overrides for About, search, section, archive, and post pages. The `metadataBase` source remains the shared environment-driven site URL, ensuring canonical tags resolve to the production domain rather than the incoming host. Added schema.org `Article` JSON-LD to every published post page with only available data: headline, publication and update dates, actual author, and cover image when set. Improved post meta-description handling by falling back to stripped post body content when a post has no dek.
+
+Verification: `npm run lint` and `npm run build` pass. Production-mode local checks confirmed well-formed `/robots.txt` and `/sitemap.xml`, admin/API exclusion, absolute production-domain canonical tags on home, About, and a post page, and valid parseable Article JSON-LD containing the expected live post data.
+
 ## Bug Fix — 2026-07-24: Preserve cover images and add thumbnail position control
 
 Status: complete

@@ -20,6 +20,9 @@ export async function generateMetadata({
   return {
     title: `${year} — DaalBaatiChurma`,
     description: `Reviews and travel diaries published in ${year}.`,
+    alternates: {
+      canonical: `/archive/${year}`,
+    },
   };
 }
 

@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'About | DaalBaatiChurma',
   description:
     'Pradyumn Singh Mephawat is an advocate and JGLS class of 2023, writing on history, philosophy, non-fiction books, and travel diaries.',
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 export default function AboutPage() {

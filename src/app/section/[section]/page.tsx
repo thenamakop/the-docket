@@ -24,6 +24,9 @@ export async function generateMetadata({
   return {
     title: `${label} — DaalBaatiChurma`,
     description: `Writing filed under ${label}.`,
+    alternates: {
+      canonical: `/section/${section}`,
+    },
   };
 }
 
