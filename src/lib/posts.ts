@@ -34,7 +34,7 @@ export async function getSectionCounts(): Promise<Record<SectionSlug, number>> {
 
   try {
     const res = await fetch(
-      supabaseRestUrl('/rest/v1/posts?select=section&status=eq.published'),
+      supabaseRestUrl('/rest/v1/published_posts_with_docket?select=section'),
       {
         headers: supabaseRestHeaders(),
         next: { revalidate: 60 },
@@ -62,7 +62,9 @@ export async function getSectionCounts(): Promise<Record<SectionSlug, number>> {
 export async function getPublishedYears(): Promise<number[]> {
   try {
     const res = await fetch(
-      supabaseRestUrl('/rest/v1/posts?select=published_at&status=eq.published'),
+      supabaseRestUrl(
+        '/rest/v1/published_posts_with_docket?select=published_at'
+      ),
       {
         headers: supabaseRestHeaders(),
         next: { revalidate: 60 },
@@ -94,7 +96,7 @@ export async function searchPosts(query: string, limit = 8): Promise<Post[]> {
     const encoded = encodeURIComponent(trimmed);
     const res = await fetch(
       supabaseRestUrl(
-        `/rest/v1/posts?or=(title.wfts.${encoded},dek.wfts.${encoded},body_html.wfts.${encoded})&status=eq.published&limit=${limit}&select=*`
+        `/rest/v1/published_posts_with_docket?or=(title.wfts.${encoded},dek.wfts.${encoded},body_html.wfts.${encoded})&limit=${limit}&select=*`
       ),
       {
         headers: supabaseRestHeaders(),
@@ -120,9 +122,8 @@ export async function getPublishedPosts(
 ): Promise<Post[]> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
-    .from('posts')
+    .from('published_posts_with_docket')
     .select('*')
-    .eq('status', 'published')
     .order('published_at', { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -143,9 +144,8 @@ export async function getPublishedSlugs(): Promise<{ slug: string }[]> {
     return [];
   }
 
-  const url = new URL(`${supabaseUrl}/rest/v1/posts`);
+  const url = new URL(`${supabaseUrl}/rest/v1/published_posts_with_docket`);
   url.searchParams.set('select', 'slug');
-  url.searchParams.set('status', 'eq.published');
 
   const res = await fetch(url.toString(), {
     headers: {
@@ -166,10 +166,9 @@ export async function getPublishedSlugs(): Promise<{ slug: string }[]> {
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
-    .from('posts')
+    .from('published_posts_with_docket')
     .select('*')
     .eq('slug', slug)
-    .eq('status', 'published')
     .single();
 
   if (error) {
@@ -218,10 +217,9 @@ export async function getPostsBySection(
 ): Promise<Post[]> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
-    .from('posts')
+    .from('published_posts_with_docket')
     .select('*')
     .eq('section', section)
-    .eq('status', 'published')
     .order('published_at', { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -242,9 +240,8 @@ export async function getPostsByYear(
   const end = `${year + 1}-01-01T00:00:00.000Z`;
   const supabase = createPublicClient();
   const { data, error } = await supabase
-    .from('posts')
+    .from('published_posts_with_docket')
     .select('*')
-    .eq('status', 'published')
     .gte('published_at', start)
     .lt('published_at', end)
     .order('published_at', { ascending: false })
@@ -265,10 +262,9 @@ export async function getRelatedPosts(
 ): Promise<Post[]> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
-    .from('posts')
+    .from('published_posts_with_docket')
     .select('*')
     .eq('section', section)
-    .eq('status', 'published')
     .neq('id', currentId)
     .order('published_at', { ascending: false })
     .limit(limit);
