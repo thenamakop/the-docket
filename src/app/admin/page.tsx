@@ -90,7 +90,7 @@ export default async function AdminPage() {
                     {post.title}
                   </span>
                   <span className="ml-2 font-mono text-xs text-slate">
-                    {post.docket_no}
+                    {post.docket_no ?? 'Draft'}
                   </span>
                 </td>
                 <td className="px-4 py-4">

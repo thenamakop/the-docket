@@ -195,7 +195,9 @@ export async function getPostById(id: string): Promise<Post | null> {
   return data as Post;
 }
 
-export async function getAllPosts(): Promise<Post[]> {
+export type AdminPost = Omit<Post, 'docket_no'> & { docket_no: string | null };
+
+export async function getAllPosts(): Promise<AdminPost[]> {
   const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('posts')
@@ -207,7 +209,24 @@ export async function getAllPosts(): Promise<Post[]> {
     return [];
   }
 
-  return (data ?? []) as Post[];
+  const posts = (data ?? []) as Post[];
+
+  const { data: docketRows, error: docketError } = await supabase
+    .from('published_posts_with_docket')
+    .select('id, docket_no');
+
+  if (docketError) {
+    console.error('getAllPosts docket lookup error:', docketError.message);
+  }
+
+  const docketById = new Map<string, string>(
+    (docketRows ?? []).map((row) => [row.id as string, row.docket_no as string])
+  );
+
+  return posts.map((post) => ({
+    ...post,
+    docket_no: docketById.get(post.id) ?? null,
+  }));
 }
 
 export async function getPostsBySection(
