@@ -12,11 +12,7 @@ import {
 
 // Active sections offered in the form for new content.
 // Retired slugs remain valid at the data-model level but are not offered here.
-const activeSectionSlugs: SectionSlug[] = [
-  'book-reviews',
-  'personal-essays',
-  'travel-diary',
-];
+const activeSectionSlugs: SectionSlug[] = ['book-reviews', 'travel-diary'];
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -37,7 +33,7 @@ export function PostForm({ post }: PostFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState(post?.title ?? '');
   const [section, setSection] = useState<SectionSlug>(
-    post?.section ?? 'personal-essays'
+    post?.section ?? 'book-reviews'
   );
   const [location, setLocation] = useState(post?.location ?? '');
   const [bodyHtml, setBodyHtml] = useState(post?.body_html ?? '');
