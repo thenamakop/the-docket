@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   devIndicators: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.gr-assets.com',
+      },
+    ],
+  },
 };
 
 export default withSentryConfig(nextConfig, {

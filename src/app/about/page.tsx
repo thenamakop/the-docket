@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import { getCurrentlyReading } from '@/lib/goodreads';
+import { BookCard } from '@/components/reading/book-card';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About | DaalBaatiChurma',
@@ -9,7 +12,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const books = await getCurrentlyReading();
+  const previewBooks = books.slice(0, 3);
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       {/* Page header — matches essay page header spacing */}
@@ -68,6 +74,31 @@ export default function AboutPage() {
             ways in.
           </p>
         </div>
+
+        {previewBooks.length > 0 && (
+          <div className="mx-auto mt-12 max-w-3xl">
+            <h2 className="font-ui text-xs font-semibold uppercase tracking-[0.08em] text-ink">
+              Currently Reading
+            </h2>
+            <p className="mt-3 font-body text-base leading-relaxed text-slate">
+              A few of the books open at the moment, mostly history, philosophy,
+              and non-fiction that takes its subject seriously.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {previewBooks.map((book) => (
+                <BookCard key={book.goodreads_id} book={book} size="compact" />
+              ))}
+            </div>
+            <div className="mt-6">
+              <Link
+                href="/reading"
+                className="font-ui text-sm text-oxblood transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-oxblood focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
+              >
+                See the full reading shelf &rarr;
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Closing epigraph — Francis Bacon, Essays (1625), public domain */}
         <div className="mt-16 border-t border-rule pt-10">
